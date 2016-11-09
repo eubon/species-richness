@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <h:head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Species Richness - Results</title>
+        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC21HljgqcqbGQaN4qkIKSsrxCV7GyTHfg" />
+        <h:outputStylesheet library="jquery-ui-1.11.4" name="jquery-ui.min.css" />
+        <h:outputStylesheet library="bootstrap" name="css/bootstrap.min.css" />
+        <h:outputStylesheet library="core" name="css-min/main.min.css" />
+        <h:outputScript library="bootstrap" name="js/jquery-1.11.3.min.js" />
+        <h:outputScript library="jquery-ui-1.11.4" name="jquery-ui.min.js" />
+        <h:outputScript library="bootstrap" name="js/bootstrap.min.js" />
+        <h:outputScript library="core" name="js-min/utils.min.js" />
+        <h:outputScript library="core" name="js-min/player.min.js" />
+        <h:outputScript library="core" name="js-min/maps.min.js" />
+        <h:outputScript library="core" name="js-min/main.min.js" />
+
+        <h:outputScript>
+            $(document).ready(function() {
+            //init
+            var latCenter = (${data.bbNorth} - ${data.bbSouth}) / 2 + ${data.bbSouth};
+            var lonCenter = (${data.bbEast} - ${data.bbWest}) / 2 + ${data.bbWest};
+            var layers = ${data.occurencesJson};
+            init(layers, latCenter, lonCenter);
+            });
+        </h:outputScript>
+    </h:head>
+    <h:body>
+        <div class="container" style="margin: 20px auto;">
+            <h4 class="text-center">
+                ${data.higherTaxonName}
+                <small>&lt; ${data.higherTaxonHierarchy}</small>
+            </h4>
+            <ul id="view-tabs" class="nav nav-tabs">
+                <li class="active"><a href="#occurences" data-toggle="tab">Occurences</a></li>
+                <li><a href="#species" data-toggle="tab">Species</a></li>
+                <li class="right"><h:link value="New search" outcome="index" /></li>
+            </ul>
+            <div id="player" class="text-center">
+                <label class="small">Year: </label>
+                <div class="btn-group" role="group" aria-label="...">
+                    <button type="button" class="btn btn-default btn-sm player-fast-backward" id="layers-fast-backward" data-toggle="tooltip" title="To the beginning" data-container="body"><span class="glyphicon glyphicon-fast-backward"></span></button>
+                    <button type="button" class="btn btn-default btn-sm player-step-backward" id="layers-step-backward" data-toggle="tooltip" title="Step backward" data-container="body"><span class="glyphicon glyphicon-step-backward"></span></button>
+                    <div class="btn-group" role="group">
+                        <select class="form-control input-sm player-steps">
+                        </select>
+                    </div>
+                    <button type="button" class="btn btn-default btn-sm player-step-forward" id="layers-step-forward" data-toggle="tooltip" title="Step forward" data-container="body"><span class="glyphicon glyphicon-step-forward"></span></button>
+                    <button type="button" class="btn btn-default btn-sm player-fast-forward" id="layers-fast-forward" data-toggle="tooltip" title="To the end" data-container="body"><span class="glyphicon glyphicon-fast-forward"></span></button>
+                </div>
+            </div>
+            <div id="colour-chart" class="tab-content small">
+                <div id="occurences" class="tab-pane active">
+                    <div class="col-md-1 text-right"><label>Occurences: </label></div>
+                    <div class="col-md-7 colour-chart-colours" id="colour-chart-colours-occurences">
+                        <span style="background-color: #f7ec75;">1 - 100</span>
+                        <span style="background-color: #f7da37;">101 - 500</span>
+                        <span style="background-color: #f7c775;">501 - 1000</span>
+                        <span style="background-color: #f7b036;">1001 - 3000</span>
+                        <span style="background-color: #f79536;">3001 - 5000</span>
+                        <span style="background-color: #f76836;">5001 - 10000</span>
+                        <span style="background-color: #f73f36;">&gt; 10000</span>
+                    </div>
+                </div>
+                <div id="species" class="tab-pane">
+                    <div class="col-md-1 text-right"><label>Species: </label></div>
+                    <div class="col-md-7 colour-chart-colours" id="colour-chart-colours-species">
+                        <span style="background-color: #d9ed96;">1 - 5</span>
+                        <span style="background-color: #cce227;">6 - 10</span>
+                        <span style="background-color: #8cd701;">11 - 20</span>
+                        <span style="background-color: #5bbf21;">21 - 40</span>
+                        <span style="background-color: #339e36;">41 - 80</span>
+                        <span style="background-color: #007a3d; color: #fff;">81 - 100</span>
+                        <span style="background-color: #235033; color: #fff;">&gt; 100</span>
+                    </div>
+                </div>
+                <div class="col-md-1 text-right"><label>Opacity: </label></div>
+                <div class="col-md-3">
+                    <div class="row" id="slider-container">
+                        <div class="col-xs-9" id="slider"></div>
+                        <div class="col-xs-3" id="slider-value">85 %</div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-9">
+                    <div id="map"></div>
+                </div>
+                <div class="col-lg-3">
+                    <h4>
+                        Details<br/>
+                        <small>(Hover over grid cell to see actual numbers, clicking a grid cell makes the details stay in this area)</small>
+                    </h4>
+                    <div>
+                        <p>
+                            <strong>Cell size:</strong> ${data.spatial}°<br/>
+                            <strong>Time interval:</strong> ${data.temporalFrom} - ${data.temporalTo}<br/>
+                            <strong>Time step:</strong> ${data.temporalRes}
+                        </p>
+                    </div>
+                    <div id="details-info"></div>
+                </div>
+            </div>
+        </div>
+    </h:body>
+</html>

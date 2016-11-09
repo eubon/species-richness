@@ -1,0 +1,109 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:pf="http://primefaces.org/ui">
+    <h:head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Species Richness</title>
+        <h:outputStylesheet library="bootstrap" name="css/bootstrap.min.css" />
+        <h:outputStylesheet library="core" name="css-min/main.min.css" />
+        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC21HljgqcqbGQaN4qkIKSsrxCV7GyTHfg&amp;libraries=drawing" ></script>
+        <h:outputScript library="bootstrap" name="js/jquery-1.11.3.min.js" />
+        <h:outputScript library="jquery-ui-1.11.4" name="jquery-ui.min.js" />
+        <h:outputScript library="bootstrap" name="js/bootstrap.min.js" />
+        <h:outputScript library="core" name="js-min/bbmap.min.js" />
+        <h:outputScript>
+            $(document).ready(function() {
+                $("#auto_input").addClass("form-control");
+            });
+        </h:outputScript>
+    </h:head>
+    <h:body>
+        <div id="parameters-container" class="container">
+            <div class="row">
+                <div class="col-lg-9">
+                    <div id="map"></div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="form-group">
+                        <label for="auto">Higher taxon</label>
+                        <pf:autoComplete id="auto"
+                                         completeMethod="#{taxonomyBean.complete}"
+                                         var="taxonomy"
+                                         itemValue="#{taxonomy}"
+                                         itemLabel="#{taxonomy}"
+                                         converter="#{taxonomyCenverter}"
+                                         multiple="false"
+                                         size="50">
+                            <pf:ajax event="itemSelect" listener="#{taxonomyBean.handleSelect}"></pf:ajax>
+                        </pf:autoComplete>
+                    </div>
+                    <h:form>
+                        <label>Spatial extent (bounding box)</label>
+                        <div class="row">
+                            <div class="form-group col-md-6 col-md-offset-3">
+                                <label for="bbNorth">North</label>
+                                <h:inputText value="#{data.bbNorth}" id="bbNorth" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-5">
+                                <label for="bbWest">West</label>
+                                <h:inputText value="#{data.bbWest}" id="bbWest" class="form-control" />
+                            </div>
+                            <div class="form-group col-md-5 col-md-offset-2">
+                                <label for="bbEast">East</label>
+                                <h:inputText value="#{data.bbEast}" id="bbEast" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-6 col-md-offset-3">
+                                <label for="bbSouth">South</label>
+                                <h:inputText value="#{data.bbSouth}" id="bbSouth" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="spatial-res">Spatial resolution</label>
+                            <h:inputText value="#{data.spatial}" id="spatial-res" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label for="temporal">Temporal extent</label>
+                            <div id="temporal" class="row">
+                                <span class="col-md-5">
+                                    <h:inputText value="#{data.temporalFrom}" id="temporal-from" class="form-control" />
+                                </span>
+                                <span class="col-md-2 text-center">-</span>
+                                <span class="col-md-5">
+                                    <h:inputText value="#{data.temporalTo}" id="temporal-to" class="form-control" />
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="temporal-res">Temporal resolution</label>
+                            <h:inputText value="#{data.temporalRes}" id="temporal-res" class="form-control" />
+                        </div>
+                        <h:commandButton action="#{data.retrieveCells()}" value="Get results" class="btn btn-default" />
+                    </h:form>
+                </div>
+            </div>
+            <!--
+            
+            <h:dataTable value="# {taxonomy.species}" var="s"
+                         styleClass="table table-bordered table-condensed table-responsive"
+                         headerClass="order-table-header">
+
+                <h:column>
+                    <f:facet name="header">Taxonkey</f:facet>
+                        $ {s.key}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Species</f:facet>
+                        $ {s.scientificName}
+                </h:column>    		
+            </h:dataTable>
+            -->
+
+        </div>
+    </h:body>
+</html>
