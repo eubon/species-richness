@@ -1,5 +1,4 @@
-<?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html">
     <h:head>
@@ -36,7 +35,7 @@
             <ul id="view-tabs" class="nav nav-tabs">
                 <li class="active"><a href="#occurences" data-toggle="tab">Occurences</a></li>
                 <li><a href="#species" data-toggle="tab">Species</a></li>
-                <li class="right"><h:link value="New search" outcome="index" /></li>
+                <li class="right"><h:link value="New search" outcome="/index.xhtml?faces-redirect=true" /></li>
             </ul>
             <div id="player" class="text-center">
                 <label class="small">Year: </label>
@@ -96,8 +95,13 @@
                     <div>
                         <p>
                             <strong>Cell size:</strong> ${data.spatial}°<br/>
-                            <strong>Time interval:</strong> ${data.temporalFrom} - ${data.temporalTo}<br/>
-                            <strong>Time step:</strong> ${data.temporalRes}
+                            <strong>Time interval:</strong> ${data.yearFrom} - ${data.yearTo}<br/>
+                            <strong>Time step:</strong> ${data.temporalRes}<br />
+                            <strong>Grid:</strong><br />
+                            <em>North:</em> ${data.bbNorth}°;
+                            <em>East:</em> ${data.bbEast}°;<br />
+                            <em>South:</em> ${data.bbSouth}°;
+                            <em>West:</em> ${data.bbWest}°
                         </p>
                     </div>
                     <div id="details-info"></div>

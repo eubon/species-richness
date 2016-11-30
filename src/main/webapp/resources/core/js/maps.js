@@ -30,24 +30,24 @@ function detailContent(property, geometry, locked) {
     $("#details-info").html(content);
 }
 
-function createGeoJSONs(cells) {
-    var layers = [];
-    $.each(cells, function (year, list) {
+function createGeoJSONs(layers) {
+    var geoJSONs = [];
+    $.each(layers, function (index, layer) {
         var featureCollection = {
             type: "FeatureCollection",
             features: []
         };
-        $.each(list, function (i, c) {
+        $.each(layer.cells, function (i, c) {
             var feature = {
                 type: "Feature",
                 geometry: {
                     type: "Polygon",
                     coordinates: [[
-                            [c.bottomLeft.longitude, c.bottomLeft.latitude], //GeoJSON coordinate is easting, northing !!!!!
-                            [c.topRight.longitude, c.bottomLeft.latitude],
-                            [c.topRight.longitude, c.topRight.latitude],
-                            [c.bottomLeft.longitude, c.topRight.latitude],
-                            [c.bottomLeft.longitude, c.bottomLeft.latitude]
+                            [c.bounds.bottomLeft.longitude, c.bounds.bottomLeft.latitude], //GeoJSON coordinate is easting, northing !!!!!
+                            [c.bounds.topRight.longitude, c.bounds.bottomLeft.latitude],
+                            [c.bounds.topRight.longitude, c.bounds.topRight.latitude],
+                            [c.bounds.bottomLeft.longitude, c.bounds.topRight.latitude],
+                            [c.bounds.bottomLeft.longitude, c.bounds.bottomLeft.latitude]
                         ]]
                 },
                 properties: {
@@ -57,11 +57,11 @@ function createGeoJSONs(cells) {
             };
             featureCollection.features.push(feature);
         });
-        layers.push({year: year,
+        geoJSONs.push({year: layer.year,
             collection: featureCollection
         });
     });
-    return layers;
+    return geoJSONs;
 }
 
 function showLayer(position, layers, map, property, colours, opacity) {
@@ -103,6 +103,9 @@ function showLayer(position, layers, map, property, colours, opacity) {
 }
 
 function initPlayer(years, geoJSONs, map, view, colours) {
+    if (years.length === 0) {
+        return;
+    }
     showLayer(0, geoJSONs, map, view, colours[view], opacity);
     $("#player").player({
         keys: years,
@@ -114,12 +117,12 @@ function initPlayer(years, geoJSONs, map, view, colours) {
 
 /**
  * Initialises map and layers
- * @param {type} layers cell grids of occurences, fed by jsf bean
+ * @param {type} results cell grids of occurences, fed by jsf bean
  * @param {type} lat latitude of map center
  * @param {type} lon longitude of map center
  * @returns {undefined}
  */
-function init(layers, lat, lon) {
+function init(results, lat, lon) {
     //init map
     var map = new google.maps.Map($("#map").get(0), {
         zoom: 3,
@@ -127,18 +130,21 @@ function init(layers, lat, lon) {
         mapTypeId: google.maps.MapTypeId.TERRAIN
     });
 
-//    google.maps.event.addListener(map, "click", function () {
-//        infowindow.close();
-//    });
-
+    var items = results.layers;
     var years = [];
-    $.each(layers, function (year, list) {
-        years.push(year);
-    });
-    //show first layer as default
-    var geoJSONs = createGeoJSONs(layers);
-    initPlayer(years, geoJSONs, map, 'occurences', colours);
-
+    if (items.length !== 0) {
+        $.each(items, function (index, layer) {
+            years.push(layer.year);
+        });
+        //show first layer as default
+        var geoJSONs = createGeoJSONs(items);
+        initPlayer(years, geoJSONs, map, 'occurences', colours);
+    } else {
+        $("#player").find("button").addClass("disabled");
+        $("#player").find("select").prop("disabled", true);
+        $("#details-info").html("No results found");
+    }
+    
     $("#slider").slider({
         max: 100,
         min: 0,
@@ -150,7 +156,6 @@ function init(layers, lat, lon) {
             map.data.forEach(function (feature) {
                 map.data.overrideStyle(feature, {fillOpacity: opacity});
             });
-
         }
     });
 

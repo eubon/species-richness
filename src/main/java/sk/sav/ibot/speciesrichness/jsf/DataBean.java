@@ -9,32 +9,27 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.Serializable;
 import java.util.List;
-import java.util.SortedMap;
-import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
-import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.collections4.TransformerUtils;
-import sk.sav.ibot.speciesrichness.geo.Cell;
-import sk.sav.ibot.speciesrichness.geo.Grid;
-import sk.sav.ibot.speciesrichness.geo.LatLon;
-import sk.sav.ibot.speciesrichness.json.GbifTaxon;
-import sk.sav.ibot.speciesrichness.model.Coredata;
+import sk.sav.ibot.speciesrichness.json.gbif.GbifTaxon;
+import sk.sav.ibot.speciesrichness.rest.results.ResultItems;
+import sk.sav.ibot.speciesrichness.rest.results.SearchTerms;
+import sk.sav.ibot.speciesrichness.logic.CoredataController;
+import sk.sav.ibot.speciesrichness.logic.TaxonomyController;
 import sk.sav.ibot.speciesrichness.services.CoredataService;
+import sk.sav.ibot.speciesrichness.values.Defaults;
 
 /**
- *
+ * JSF bean, recieves input values and returns results obtained by logic.
  * @author Matus
  */
 @ManagedBean(name = "data")
 @SessionScoped
 public class DataBean implements Serializable {
 
-    //@ManagedProperty(value = "#{taxonomyService}")
-    //private TaxonomyService taxonomyService;
     @ManagedProperty(value = "#{coredataService}")
     private transient CoredataService coredataService;
 
@@ -43,14 +38,14 @@ public class DataBean implements Serializable {
     
     private String higherTaxonName;
     private String higherTaxonHierarchy;
-    private double bbWest = -10.0;
-    private double bbNorth = 72.0;
-    private double bbEast = 40.0;
-    private double bbSouth = 29.0;
-    private int spatial = 5;
-    private int temporalFrom = 1785;
-    private int temporalTo = 2015;
-    private int temporalRes = 1;
+    private double bbNorth = Defaults.NORTH;
+    private double bbEast = Defaults.EAST;
+    private double bbSouth = Defaults.SOUTH;
+    private double bbWest = Defaults.WEST;
+    private int spatial = Defaults.SPATIAL_RESOLUTION;
+    private int yearFrom = Defaults.YEAR_FROM;
+    private int yearTo = Defaults.YEAR_TO;
+    private int temporalRes = Defaults.TEMPORAL_RESOLUTION;
     
     private String occurencesJson;
 
@@ -126,20 +121,20 @@ public class DataBean implements Serializable {
         this.spatial = spatial;
     }
 
-    public int getTemporalFrom() {
-        return temporalFrom;
+    public int getYearFrom() {
+        return yearFrom;
     }
 
-    public void setTemporalFrom(int temporalFrom) {
-        this.temporalFrom = temporalFrom;
+    public void setYearFrom(int yearFrom) {
+        this.yearFrom = yearFrom;
     }
 
-    public int getTemporalTo() {
-        return temporalTo;
+    public int getYearTo() {
+        return yearTo;
     }
 
-    public void setTemporalTo(int temporalTo) {
-        this.temporalTo = temporalTo;
+    public void setYearTo(int yearTo) {
+        this.yearTo = yearTo;
     }
 
     public int getTemporalRes() {
@@ -159,47 +154,30 @@ public class DataBean implements Serializable {
     }
     
     /**
-     * Computes grid - layers of cells - from the user-defined input.
-     * Retrieves all species from GBIF API by given higher taxon. Fetches ocurrences for
-     * these species. Creates cells in a range of years in user-defined grid boundaries, 
-     * and cell width.
+     * Retrieves results by given search terms and serializes them into JSON object.
      * @return webpage with results - "cells"
      */
     public String retrieveCells() {
-        List<GbifTaxon> species = taxonomyBean.retrieveSpecies();
+        //restrieve species by the higher taxon
+        TaxonomyController tc = new TaxonomyController();
+        if (taxonomyBean.getGbifkey() == null) { //not autocomplete value
+            throw new NullPointerException("No result found for taxon " + taxonomyBean.getHigherTaxonName());
+        }
+        List<GbifTaxon> species = tc.retrieveSpecies(taxonomyBean.getGbifkey());
+        //set values for serialization
         this.higherTaxonName = taxonomyBean.getHigherTaxonName();
         this.higherTaxonHierarchy = taxonomyBean.getHigherTaxonHierarchy();
         
-        //List<Integer> taxonkeys = this.coredataService.getAllTaxonkeys(this.temporalFrom, this.temporalTo); //testing only
+        CoredataController cc = new CoredataController(coredataService);
+        SearchTerms terms = new SearchTerms(this.spatial, this.yearFrom, 
+                this.yearTo, this.temporalRes, this.higherTaxonName, 
+                taxonomyBean.getHigherTaxonRank(), this.taxonomyBean.getGbifkey(), 
+                this.bbNorth, this.bbEast, this.bbSouth, this.bbWest);
         
-        List<Integer> taxonkeys = (List) CollectionUtils.collect(species, TransformerUtils.invokerTransformer("getKey"));
-        List<Coredata> data = this.coredataService.getCoredataByTaxonkeys(taxonkeys, this.temporalFrom, this.temporalTo);
-        Grid grid = new Grid(new LatLon(this.bbSouth, this.bbWest), new LatLon(this.bbNorth, this.bbEast));
-        grid.occurencesInGrid(this.spatial, this.temporalRes, this.temporalFrom, data);
-        SortedMap<String, List<Cell>> occurences = new TreeMap<>(grid.getLayers()); //occurences moved from class attribute to local variable
-        
-        /*
-        Map<String, List<Cell>> layers = new HashMap<>();
-        List<Cell> c1s = new ArrayList<>();
-        c1s.add(new Cell(new LatLon(29, -10), new LatLon(59, 20), 2002, 9050));
-        c1s.add(new Cell(new LatLon(59, 20), new LatLon(72, 40), 2002, 29));
-        c1s.add(new Cell(new LatLon(59, -10), new LatLon(72, 20), 2002, 122));
-        layers.put("2002", c1s);
-        List<Cell> c2s = new ArrayList<>();
-        c2s.add(new Cell(new LatLon(29, -10), new LatLon(59, 20), 2003, 8599));
-        c2s.add(new Cell(new LatLon(29, 20), new LatLon(59, 40), 2003, 4));
-        c2s.add(new Cell(new LatLon(59, 20), new LatLon(72, 40), 2003, 29));
-        layers.put("2003", c2s);
-        List<Cell> c3s = new ArrayList<>();
-        c3s.add(new Cell(new LatLon(29, -10), new LatLon(59, 20), 2004, 700));
-        c3s.add(new Cell(new LatLon(29, 20), new LatLon(59, 40), 2004, 0));
-        c3s.add(new Cell(new LatLon(59, 20), new LatLon(72, 40), 2004, 300));
-        layers.put("2004", c3s);
-        SortedMap<String, List<Cell>> occurences = new TreeMap<>(layers);
-        */
+        ResultItems results = cc.retrieveResults(terms, species);       
         ObjectMapper mapper = new ObjectMapper();
         try {
-            this.occurencesJson = mapper.writeValueAsString(occurences);
+            this.occurencesJson = mapper.writeValueAsString(results);
         } catch (JsonProcessingException ex) {
             Logger.getLogger(DataBean.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -9,4 +9,11 @@
         <el-resolver>org.springframework.web.jsf.el.SpringBeanFacesELResolver</el-resolver>
     </application>
        
+    <!--
+    <factory>
+        <exception-handler-factory>
+            sk.sav.ibot.speciesrichness.jsf.exception.SpeciesRichnessExceptionHandlerFactory
+        </exception-handler-factory>
+    </factory>
+       -->
 </faces-config>

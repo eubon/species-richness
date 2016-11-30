@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package sk.sav.ibot.speciesrichness.json;
+package sk.sav.ibot.speciesrichness.json.gbif;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.List;

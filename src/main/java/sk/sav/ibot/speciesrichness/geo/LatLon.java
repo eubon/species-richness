@@ -10,6 +10,12 @@ public class LatLon {
     private double longitude;
 
     public LatLon(double latitude, double longitude) {
+        if (latitude < -90 && latitude > 90) {
+            throw new IllegalArgumentException("latitude must be within range [-90, 90]");
+        }
+        if (longitude < -180 && longitude > 180) {
+            throw new IllegalArgumentException("longitude must be within range [-180, 180]");
+        }
         this.latitude = latitude;
         this.longitude = longitude;
     }

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package sk.sav.ibot.speciesrichness.json;
+package sk.sav.ibot.speciesrichness.json.gbif;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -15,14 +15,17 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class GbifTaxon {
     
     private Integer key;
+    private Integer usageKey;
     private Integer kingdomKey;
     private Integer phylumKey;
     private Integer classKey;
     private Integer orderKey;
     private Integer familyKey;
     private Integer genusKey;
+    private String matchType;
     
     private String scientificName;
+    private String rank;
 
     public GbifTaxon() {
     }
@@ -33,6 +36,14 @@ public class GbifTaxon {
 
     public void setKey(Integer key) {
         this.key = key;
+    }
+
+    public Integer getUsageKey() {
+        return usageKey;
+    }
+
+    public void setUsageKey(Integer usageKey) {
+        this.usageKey = usageKey;
     }
 
     public Integer getKingdomKey() {
@@ -91,9 +102,25 @@ public class GbifTaxon {
         this.scientificName = scientificName;
     }
 
+    public String getMatchType() {
+        return matchType;
+    }
+
+    public void setMatchType(String matchType) {
+        this.matchType = matchType;
+    }
+
+    public String getRank() {
+        return rank;
+    }
+
+    public void setRank(String rank) {
+        this.rank = rank;
+    }
+    
     @Override
     public String toString() {
-        return "Taxon{" + "key=" + key + ", kingdomKey=" + kingdomKey + ", phylumKey=" + phylumKey + ", classKey=" + classKey + ", orderKey=" + orderKey + ", familyKey=" + familyKey + ", genusKey=" + genusKey + ", scientificName=" + scientificName + '}';
+        return "Taxon{" + "key=" + key + ", usageKey=" + usageKey + ", kingdomKey=" + kingdomKey + ", phylumKey=" + phylumKey + ", classKey=" + classKey + ", orderKey=" + orderKey + ", familyKey=" + familyKey + ", genusKey=" + genusKey + ", scientificName=" + scientificName + '}';
     }
     
 }

@@ -6,6 +6,7 @@
 package sk.sav.ibot.speciesrichness.services;
 
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,10 +17,11 @@ import sk.sav.ibot.speciesrichness.model.Taxonomy;
  * Service layer calling DAO layer for Taxonomy
  * @author Matus Kempa, Institute of Botany, SAS, Bratislava, Slovakia
  */
-@Service
+@Service("taxonomyService")
 @Scope(value = "singleton")
 public class TaxonomyServiceImpl implements TaxonomyService{
 
+    @Autowired
     private TaxonomyDAO taxonomyDAO;
 
     public void setTaxonomyDAO(TaxonomyDAO taxonomyDAO) {
@@ -32,7 +34,7 @@ public class TaxonomyServiceImpl implements TaxonomyService{
      * @return Taxonomy object with given gbifkey
      */
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public Taxonomy getTaxonByGbifkey(long gbifkey) {
         return this.taxonomyDAO.getTaxonByGbifkey(gbifkey);
     }
@@ -43,7 +45,7 @@ public class TaxonomyServiceImpl implements TaxonomyService{
      * @return List of taxa 
      */
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public List<Taxonomy> getHigherTaxonStartsWith(String query) {
         return this.taxonomyDAO.getSuperTaxonStartsWith(query);
     }

@@ -1,5 +1,7 @@
 package sk.sav.ibot.speciesrichness.geo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -53,6 +55,7 @@ public class Cell implements Comparable<Cell> {
         this.topRight = topRight;
     }
 
+    @JsonIgnore
     public int getYear() {
         return year;
     }
@@ -61,6 +64,7 @@ public class Cell implements Comparable<Cell> {
         this.year = year;
     }
 
+    @JsonIgnore
     public int getNumOccurences() {
         return numOccurences;
     }
@@ -73,6 +77,7 @@ public class Cell implements Comparable<Cell> {
         this.numOccurences += value;
     }
 
+    @JsonIgnore
     public int getNumSpecies() {
         return this.species.size();
     }
@@ -87,6 +92,7 @@ public class Cell implements Comparable<Cell> {
      * unique taxonkey.
      * @return Set of taxonkeys
      */
+    @JsonIgnore
     public Set<Integer> getSpecies() {
         return species;
     }
@@ -103,10 +109,14 @@ public class Cell implements Comparable<Cell> {
     public void addSpecies(Integer taxonkey) {
         this.species.add(taxonkey);
     }
+    
+    public void addSpecies(Collection<Integer> taxonkeys) {
+        this.species.addAll(taxonkeys);
+    }
 
     @Override
     public String toString() {
-        return "Cell{" + "bottomLeft=" + bottomLeft + ", topRight=" + topRight + ", year=" + year + ", species=" + species + '}';
+        return "Cell{" + "bottomLeft=" + bottomLeft + ", topRight=" + topRight + ", year=" + year + ", occurences=" + numOccurences + ", species=" + species + '}';
     }
 
     @Override

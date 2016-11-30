@@ -15,8 +15,6 @@ import sk.sav.ibot.speciesrichness.geo.LatLon;
 @Entity
 @Table(name = "coredata_sorted")
 //@Table(name = "coredata_t")
-//@Cacheable
-//@Cache(usage = CacheConcurrencyStrategy.READ_ONLY)
 public class Coredata implements Serializable {
     
     @Id
@@ -27,9 +25,6 @@ public class Coredata implements Serializable {
     private String countrycode;
     private Integer cyear;
     private Integer numRecords;
-    //@ManyToOne(fetch = FetchType.LAZY)
-    //@JoinColumn(name = "taxonkey")
-    //private Taxonomy taxonomy;
 
     public Coredata() {
     }
@@ -42,7 +37,6 @@ public class Coredata implements Serializable {
         this.countrycode = countrycode;
         this.cyear = cyear;
         this.numRecords = numRecords;
-        //this.taxonomy = taxonomy;
     }
 
     public Integer getId() {
