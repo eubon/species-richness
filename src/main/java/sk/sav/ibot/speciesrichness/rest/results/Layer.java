@@ -48,5 +48,10 @@ public class Layer implements Comparable<Layer> {
     public int compareTo(Layer o) {
         return this.year - o.getYear();
     }
+
+    @Override
+    public String toString() {
+        return "Layer{" + "year=" + year + ", cells=" + cells.size() + '}';
+    }
     
 }

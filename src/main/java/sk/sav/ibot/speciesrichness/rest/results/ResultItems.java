@@ -6,6 +6,7 @@
 package sk.sav.ibot.speciesrichness.rest.results;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
+import io.swagger.annotations.ApiModel;
 import java.util.List;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
@@ -17,15 +18,12 @@ import javax.xml.bind.annotation.XmlRootElement;
  *
  * @author Matus
  */
+@ApiModel(value = "Response")
 @XmlRootElement(name = "response")
 public class ResultItems {
 
-    @XmlElement(name = "searchTerms")
+    @XmlElement(name = "query")
     private SearchTerms terms;
-
-//    @XmlJavaTypeAdapter(ResultItemsMapAdapter.class)
-//    @XmlElement(name="results")
-//    private Map<String, List<ResultCell>> items; 
     
     private List<Layer> layers;
 
@@ -37,19 +35,7 @@ public class ResultItems {
         this.layers = layers;
     }
 
-//    public ResultItems(SearchTerms terms, Map<String, List<ResultCell>> items) {
-//        this.terms = terms;
-//        this.items = items;
-//    }
-//    @JsonGetter("results")
-//    public Map<String, List<ResultCell>> getResultItems() {
-//        return this.items;
-//    }
-//
-//    public void setItems(Map<String, List<ResultCell>> items) {
-//        this.items = items;
-//    }
-    @JsonGetter("searchTerms")
+    @JsonGetter("query")
     public SearchTerms getSearchTerms() {
         return this.terms;
     }
@@ -66,6 +52,11 @@ public class ResultItems {
 
     public void setLayers(List<Layer> layers) {
         this.layers = layers;
+    }
+
+    @Override
+    public String toString() {
+        return "ResultItems{layers=" + layers.size() + '}';
     }
 
 }

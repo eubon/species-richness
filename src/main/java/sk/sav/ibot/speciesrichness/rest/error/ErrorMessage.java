@@ -5,18 +5,20 @@
  */
 package sk.sav.ibot.speciesrichness.rest.error;
 
+import io.swagger.annotations.ApiModel;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * POJO class of the error message. Used for REST.
  * @author Matus
  */
+@ApiModel(value = "Error")
 @XmlRootElement(name = "error")
 public class ErrorMessage {
  
     private int status;
     private String message;
-//    private String developerMessage;
+    private String developerMessage;
 
     public ErrorMessage() {
     }
@@ -42,12 +44,12 @@ public class ErrorMessage {
         this.message = message;
     }
 
-//    public String getDeveloperMessage() {
-//        return developerMessage;
-//    }
-//
-//    public void setDeveloperMessage(String developerMessage) {
-//        this.developerMessage = developerMessage;
-//    }
+    public String getDeveloperMessage() {
+        return developerMessage;
+    }
+
+    public void setDeveloperMessage(String developerMessage) {
+        this.developerMessage = developerMessage;
+    }
     
 }

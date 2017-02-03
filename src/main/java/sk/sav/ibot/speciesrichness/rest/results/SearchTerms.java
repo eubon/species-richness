@@ -5,19 +5,26 @@
  */
 package sk.sav.ibot.speciesrichness.rest.results;
 
+import io.swagger.annotations.ApiModel;
+
 /**
  * POJO class encapsulating search conditions. Is included in output.
+ *
  * @author Matus
  */
+@ApiModel(value = "Query")
 public class SearchTerms {
 
     private int spatialResolution;
     private int yearFrom;
     private int yearTo;
     private int temporalResolution;
-    private String taxonName;
-    private String taxonRank;
-    private String gbifKey;
+    private String supertaxonName;
+    private String supertaxonRank;
+    private int supertaxonGbifKey;
+
+    private String taxonName; //species
+    private int taxonGbifKey;
 
     private double boundsNorth;
     private double boundsEast;
@@ -27,15 +34,19 @@ public class SearchTerms {
     public SearchTerms() {
     }
 
-    public SearchTerms(int spatialResolution, int yearFrom, int yearTo, int temporalResolution, String taxonName, String taxonRank, String gbifKey, 
+    public SearchTerms(int spatialResolution, int yearFrom, int yearTo, int temporalResolution, 
+            String supertaxonName, String supertaxonRank, int supertaxonGbifKey,
+            String taxonName, int taxonGbifKey,
             double north, double east, double south, double west) {
         this.spatialResolution = spatialResolution;
         this.yearFrom = yearFrom;
         this.yearTo = yearTo;
         this.temporalResolution = temporalResolution;
+        this.supertaxonName = supertaxonName;
+        this.supertaxonRank = supertaxonRank;
+        this.supertaxonGbifKey = supertaxonGbifKey;
         this.taxonName = taxonName;
-        this.taxonRank = taxonRank;
-        this.gbifKey = gbifKey;
+        this.taxonGbifKey = taxonGbifKey;
         this.boundsNorth = north;
         this.boundsEast = east;
         this.boundsSouth = south;
@@ -58,20 +69,36 @@ public class SearchTerms {
         return this.temporalResolution;
     }
 
+    public String getSupertaxonName() {
+        return this.supertaxonName;
+    }
+
+    public String getSupertaxonRank() {
+        return supertaxonRank;
+    }
+
+    public void setSupertaxonRank(String supertaxonRank) {
+        this.supertaxonRank = supertaxonRank;
+    }
+
+    public int getSupertaxonGbifKey() {
+        return this.supertaxonGbifKey;
+    }
+
     public String getTaxonName() {
-        return this.taxonName;
+        return taxonName;
     }
 
-    public String getTaxonRank() {
-        return taxonRank;
+    public void setTaxonName(String taxonName) {
+        this.taxonName = taxonName;
     }
 
-    public void setTaxonRank(String taxonRank) {
-        this.taxonRank = taxonRank;
+    public int getTaxonGbifKey() {
+        return taxonGbifKey;
     }
 
-    public String getGbifKey() {
-        return this.gbifKey;
+    public void setTaxonGbifKey(int taxonGbifKey) {
+        this.taxonGbifKey = taxonGbifKey;
     }
 
     public double getBoundsNorth() {
@@ -106,12 +133,12 @@ public class SearchTerms {
         this.temporalResolution = temporalResolution;
     }
 
-    public void setTaxonName(String taxonName) {
-        this.taxonName = taxonName;
+    public void setSupertaxonName(String supertaxonName) {
+        this.supertaxonName = supertaxonName;
     }
 
-    public void setGbifKey(String gbifKey) {
-        this.gbifKey = gbifKey;
+    public void setSupertaxonGbifKey(int supertaxonGbifKey) {
+        this.supertaxonGbifKey = supertaxonGbifKey;
     }
 
     public void setBoundsNorth(double boundsNorth) {
@@ -128,6 +155,11 @@ public class SearchTerms {
 
     public void setBoundsWest(double boundsWest) {
         this.boundsWest = boundsWest;
+    }
+
+    @Override
+    public String toString() {
+        return "SearchTerms{" + "spatialResolution=" + spatialResolution + ", yearFrom=" + yearFrom + ", yearTo=" + yearTo + ", temporalResolution=" + temporalResolution + ", supertaxonName=" + supertaxonName + ", supertaxonRank=" + supertaxonRank + ", supertaxonGbifKey=" + supertaxonGbifKey + ", taxonName=" + taxonName + ", taxonGbifKey=" + taxonGbifKey + ", boundsNorth=" + boundsNorth + ", boundsEast=" + boundsEast + ", boundsSouth=" + boundsSouth + ", boundsWest=" + boundsWest + '}';
     }
 
 }

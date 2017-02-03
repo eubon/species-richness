@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import sk.sav.ibot.speciesrichness.model.Coredata;
 
+
 /**
  * Implementation of CoredataDAO interface. Handles data fetching from Coredata table.
  * @author Matus Kempa, Institute of Botany, SAS, Bratislava, Slovakia
@@ -45,7 +46,7 @@ public class CoredataDAOImpl implements CoredataDAO {
             throw new IllegalArgumentException("taxonkeys is null");
         }
         Session session = this.sessionFactory.getCurrentSession();
-        String q = "from Coredata where taxonkey in :taxonkeys and cyear >= :syear and cyear <= :uyear";
+        String q = "from Coredata where taxonkey in :taxonkeys and cyear >= :syear and cyear <= :uyear order by id";
         Query query = session.createQuery(q);
         query.setParameterList("taxonkeys", taxonkeys).setParameter("syear", sinceYear).setParameter("uyear", untilYear);
         List<Coredata> coredata = query.list();

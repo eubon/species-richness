@@ -6,6 +6,8 @@
 package sk.sav.ibot.speciesrichness.model;
 
 import java.io.Serializable;
+import java.util.LinkedList;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
@@ -14,21 +16,22 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
- * Model for table containing taxonomy hierarchy, taken from GBIF. 
- * Contains only ranks Genus and higher.
- * Rows are identified by unique gbifkey, name, rank of the taxon, and parent in the hierarchy.
+ * Model for table containing taxonomy hierarchy, taken from GBIF. Contains only
+ * ranks Genus and higher. Rows are identified by unique gbifkey, name, rank of
+ * the taxon, and parent in the hierarchy.
+ *
  * @author Matus
  */
 @Entity
 @Table(name = "taxonomy")
 public class Taxonomy implements Serializable {
-    
+
     @Id
     private Integer id;
     private Long gbifkey;
     private String name;
     private String rank;
-    
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_key", referencedColumnName = "gbifkey")
     private Taxonomy parent;
@@ -75,27 +78,30 @@ public class Taxonomy implements Serializable {
     public void setParent(Taxonomy parent) {
         this.parent = parent;
     }
-    
+
     public boolean hasParent() {
         return this.parent != null;
     }
 
-    public String getHigherHierarchy() {
+    public List<Taxonomy> getHigherHierarchy() {
+        List<Taxonomy> hierarchy = new LinkedList<>();
         Taxonomy t = this;
-        StringBuilder sb = new StringBuilder();
+        //StringBuilder sb = new StringBuilder();
         while (t.hasParent()) {
             t = t.getParent();
-            sb.append(t.getName());
-            if (t.hasParent()) {
-                sb.append(" < ");
-            }
+            hierarchy.add(t);
+//            sb.append(t.getName());
+//            if (t.hasParent()) {
+//                sb.append(" < ");
+//            }
         }
-        return sb.toString();
+//        return sb.toString();
+        return hierarchy;
     }
-    
+
     @Override
     public String toString() {
         return this.name + " (" + this.rank.toLowerCase() + ")";
     }
-    
+
 }

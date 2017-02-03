@@ -1,10 +1,21 @@
 
-//var infowindow = new google.maps.InfoWindow();
-var colours = {
-    occurences: [{key: 100, value: "#f7ec75"}, {key: 500, value: "#f7da37"}, {key: 1000, value: "#f7c775"}, {key: 3000, value: "#f7b036"},
-        {key: 5000, value: "#f79536"}, {key: 10000, value: "#f76836"}, {key: Number.MAX_VALUE, value: "#f73f36"}],
-    species: [{key: 5, value: "#d9ed96"}, {key: 10, value: "#cce227"}, {key: 20, value: "#8cd701"}, {key: 40, value: "#5bbf21"},
-        {key: 80, value: "#339e36"}, {key: 100, value: "#007a3d"}, {key: Number.MAX_VALUE, value: "#235033"}]
+var views = {
+    occurences: {
+        allowZero: false,
+        colours: [{key: 100, value: "#f7ec75"}, {key: 500, value: "#f7da37"}, {key: 1000, value: "#f7c775"}, {key: 3000, value: "#f7b036"},
+            {key: 5000, value: "#f79536"}, {key: 10000, value: "#f76836"}, {key: Number.MAX_VALUE, value: "#f73f36"}]
+    },
+    species: {
+        allowZero: false,
+        colours: [{key: 5, value: "#d9ed96"}, {key: 10, value: "#cce227"}, {key: 20, value: "#8cd701"}, {key: 40, value: "#5bbf21"},
+            {key: 80, value: "#339e36"}, {key: 100, value: "#007a3d"}, {key: Number.MAX_VALUE, value: "#235033"}]
+    },
+    ratio: {
+        allowZero: false,
+        colours: [{key: 0.1, value: "#d6e7e5"}, {key: 0.2, value: "#bedad9"}, {key: 0.3, value: "#a7d0ce"},
+            {key: 0.4, value: "#8bc6cb"}, {key: 0.5, value: "#68bcc8"}, {key: 0.6, value: "#38b2c6"},
+            {key: 0.7, value: "#00a9c3"}, {key: 0.8, value: "#009fb8"}, {key: 0.9, value: "#0097af"}, {key: 2.0, value: "#01899e"}]
+    }
 };
 var opacity = 0.85;
 var detailLocked = false;
@@ -14,12 +25,18 @@ function detailContent(property, geometry, locked) {
     geometry.forEachLatLng(function (latlng) {
         corners.push(latlng);
     });
-    var content = '<div class="larger"><strong>' + property.records + '</strong> ' + property.label + '</div>\n\
+    var content = '<div class="larger">' + property.label + '<strong>' + property.records + '</strong></div>\n\
                         <div class="smaller cell">\n\
                             <h5>Cell:</h5>\n\
                             <p>Bottom left: ' + corners[0].lat() + '° ' + corners[0].lng() + '°<br/>\n\
                             Top right: ' + corners[2].lat() + '° ' + corners[2].lng() + '°</p>\n\
                         </div>';
+    if ("specieslist" in property) {
+        content += '<div class="smaller cell">\n\
+                            <h5>Species List:</h5>';
+        content += speciesList(property.specieslist);
+        content += '</div>';
+    }
     if (locked) {
         content += '<div><a class="btn btn-default dismiss">Back to hover mode</a></div>';
         $("#details-info").on("click", ".dismiss", function (event) {
@@ -51,8 +68,9 @@ function createGeoJSONs(layers) {
                         ]]
                 },
                 properties: {
-                    occurences: {records: c.numOccurences, label: "occurences"},
-                    species: {records: c.numSpecies, label: "species"}
+                    occurences: {records: c.numOccurences, label: "Occurences: "},
+                    species: {records: c.numSpecies, label: "Species: ", specieslist: c.species},
+                    ratio: {records: c.taxonRatio, label: "Ratio of selected species occurences to higher taxon occurences: "}
                 }
             };
             featureCollection.features.push(feature);
@@ -64,7 +82,7 @@ function createGeoJSONs(layers) {
     return geoJSONs;
 }
 
-function showLayer(position, layers, map, property, colours, opacity) {
+function showLayer(position, layers, map, property, view, opacity) {
     //clean features
     map.data.forEach(function (feature) {
         map.data.remove(feature);
@@ -73,7 +91,10 @@ function showLayer(position, layers, map, property, colours, opacity) {
     map.data.addGeoJson(layers[position].collection);
     map.data.setStyle(function (feature) {
         var r = feature.getProperty(property).records;
-        var colour = chooseValue(colours, r);
+        var colour = chooseValue(view.colours, r, view.allowZero);
+        if (colour === 0) {
+            colour = "#777";
+        }
         return {
             fillOpacity: opacity,
             fillColor: colour,
@@ -138,13 +159,14 @@ function init(results, lat, lon) {
         });
         //show first layer as default
         var geoJSONs = createGeoJSONs(items);
-        initPlayer(years, geoJSONs, map, 'occurences', colours);
+        //console.log(geoJSONs);
+        initPlayer(years, geoJSONs, map, 'occurences', views);
     } else {
         $("#player").find("button").addClass("disabled");
         $("#player").find("select").prop("disabled", true);
         $("#details-info").html("No results found");
     }
-    
+
     $("#slider").slider({
         max: 100,
         min: 0,
@@ -161,7 +183,7 @@ function init(results, lat, lon) {
 
     $("#view-tabs a").click(function () {
         var view = $(this).attr("href").replace("#", "");
-        initPlayer(years, geoJSONs, map, view, colours);
+        initPlayer(years, geoJSONs, map, view, views);
         detailLocked = false;
         $("#details-info").html("");
     });

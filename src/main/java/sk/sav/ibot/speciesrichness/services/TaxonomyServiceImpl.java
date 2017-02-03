@@ -47,7 +47,7 @@ public class TaxonomyServiceImpl implements TaxonomyService{
     @Override
     @Transactional(readOnly = true)
     public List<Taxonomy> getHigherTaxonStartsWith(String query) {
-        return this.taxonomyDAO.getSuperTaxonStartsWith(query);
+        return this.taxonomyDAO.getHigherTaxonStartsWith(query);
     }
     
 }

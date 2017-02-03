@@ -61,7 +61,7 @@ public class TaxonomyDAOImpl implements TaxonomyDAO {
      * @return List of Taxonomy results
      */
     @Override
-    public List<Taxonomy> getSuperTaxonStartsWith(String term) {
+    public List<Taxonomy> getHigherTaxonStartsWith(String term) {
         if (term == null) {
             throw new IllegalArgumentException("term is null");
         }

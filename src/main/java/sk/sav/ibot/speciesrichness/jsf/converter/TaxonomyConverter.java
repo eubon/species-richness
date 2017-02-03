@@ -6,7 +6,7 @@ import javax.faces.bean.RequestScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
-import javax.faces.convert.FacesConverter;
+import org.apache.commons.lang3.math.NumberUtils;
 import sk.sav.ibot.speciesrichness.model.Taxonomy;
 import sk.sav.ibot.speciesrichness.services.TaxonomyService;
 
@@ -14,10 +14,10 @@ import sk.sav.ibot.speciesrichness.services.TaxonomyService;
  * Converter for Taxonomy. Taxonomy object is defined by its unique gbifkey.
  * @author Matus Kempa, Institute of Botany, SAS, Bratislava, Slovakia
  */
-@ManagedBean
+@ManagedBean(name = "taxonomyConverter") //this is required because of the managed property injection
 @RequestScoped
-@FacesConverter
-public class TaxonomyCenverter implements Converter {
+//@FacesConverter(value = "taxonomyConverter", forClass = Taxonomy.class) //not required because of the managedbean annot
+public class TaxonomyConverter implements Converter {
 
     @ManagedProperty(value = "#{taxonomyService}")
     private TaxonomyService taxonomyService;
@@ -39,7 +39,7 @@ public class TaxonomyCenverter implements Converter {
      */
     @Override
     public Object getAsObject(FacesContext fc, UIComponent uic, String string) {
-        if (!string.isEmpty()) {
+        if (!string.isEmpty() && NumberUtils.isNumber(string)) {
             return this.taxonomyService.getTaxonByGbifkey(Long.decode(string));
         }
         return null;

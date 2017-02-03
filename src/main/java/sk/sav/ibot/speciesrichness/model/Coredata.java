@@ -14,7 +14,6 @@ import sk.sav.ibot.speciesrichness.geo.LatLon;
  */
 @Entity
 @Table(name = "coredata_sorted")
-//@Table(name = "coredata_t")
 public class Coredata implements Serializable {
     
     @Id
@@ -101,7 +100,7 @@ public class Coredata implements Serializable {
 
     @Override
     public String toString() {
-        return "Coredata{" + "id=" + id + ", latitude=" + latitude + ", longitude=" + longitude + ", countrycode=" + countrycode + ", cyear=" + cyear + ", numRecords=" + numRecords + '}';
+        return "Coredata{" + "id=" + id + ", taxonkey=" + taxonkey + ", latitude=" + latitude + ", longitude=" + longitude + ", countrycode=" + countrycode + ", cyear=" + cyear + ", numRecords=" + numRecords + '}';
     }
     
         

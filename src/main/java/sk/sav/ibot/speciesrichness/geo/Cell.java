@@ -1,6 +1,5 @@
 package sk.sav.ibot.speciesrichness.geo;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Objects;
@@ -22,21 +21,22 @@ public class Cell implements Comparable<Cell> {
     private int year;
     private int numOccurences;
     private Set<Integer> species = new HashSet<>(); //species in this cell
-    //private int numSpecies;
+    private int taxonOccurences; //given the specific taxon, hold occurences of it
 
     public Cell(LatLon bottomLeft, LatLon topRight, int year) {
         this.bottomLeft = bottomLeft;
         this.topRight = topRight;
         this.year = year;
         this.numOccurences = 0;
+        this.taxonOccurences = 0;
     }
 
-    public Cell(LatLon bottomLeft, LatLon topRight, int year, int numRecords/*, int numSpecies*/) {
+    public Cell(LatLon bottomLeft, LatLon topRight, int year, int numRecords, int taxonOccurences) {
         this.bottomLeft = bottomLeft;
         this.topRight = topRight;
         this.year = year;
         this.numOccurences = numRecords;
-        //this.numSpecies = numSpecies;
+        this.taxonOccurences = taxonOccurences;
     }
 
     public LatLon getBottomLeft() {
@@ -55,7 +55,6 @@ public class Cell implements Comparable<Cell> {
         this.topRight = topRight;
     }
 
-    @JsonIgnore
     public int getYear() {
         return year;
     }
@@ -64,7 +63,6 @@ public class Cell implements Comparable<Cell> {
         this.year = year;
     }
 
-    @JsonIgnore
     public int getNumOccurences() {
         return numOccurences;
     }
@@ -74,25 +72,32 @@ public class Cell implements Comparable<Cell> {
     }
 
     public void addNumOccurences(int value) {
+        //value can be negative
         this.numOccurences += value;
     }
 
-    @JsonIgnore
+    public int getTaxonOccurences() {
+        return taxonOccurences;
+    }
+
+    public void setTaxonOccurences(int taxonOccurences) {
+        this.taxonOccurences = taxonOccurences;
+    }
+    
+    public void addTaxonOccurences(int value) {
+        //value can be negative
+        this.taxonOccurences += value;
+    }
+    
     public int getNumSpecies() {
         return this.species.size();
     }
 
-    /*
-    public void setNumSpecies(int numSpecies) {
-        this.numSpecies = numSpecies;
-    }
-     */
     /**
      * Getter for species in the cell. Species in the set is represented by its
      * unique taxonkey.
      * @return Set of taxonkeys
      */
-    @JsonIgnore
     public Set<Integer> getSpecies() {
         return species;
     }

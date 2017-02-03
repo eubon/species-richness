@@ -10,5 +10,5 @@ import sk.sav.ibot.speciesrichness.model.Taxonomy;
 public interface TaxonomyDAO {
 
     public Taxonomy getTaxonByGbifkey(long gbifkey);
-    public List<Taxonomy> getSuperTaxonStartsWith(String term);
+    public List<Taxonomy> getHigherTaxonStartsWith(String term);
 }

@@ -37,9 +37,9 @@ public class SpeciesRichnessThrowableExceptionMapper implements ExceptionMapper<
         ErrorMessage errorMessage = new ErrorMessage();
         this.setHttpStatus(e, errorMessage);
         errorMessage.setMessage(e.getMessage());
-//        StringWriter errorStackTrace = new StringWriter();
-//        e.printStackTrace(new PrintWriter(errorStackTrace));
-//        errorMessage.setDeveloperMessage(errorStackTrace.toString());
+        StringWriter errorStackTrace = new StringWriter();
+        e.printStackTrace(new PrintWriter(errorStackTrace));
+        errorMessage.setDeveloperMessage(errorStackTrace.toString());
         return Response.status(errorMessage.getStatus()).entity(errorMessage).type(headers.getMediaType()).build();
     }
 

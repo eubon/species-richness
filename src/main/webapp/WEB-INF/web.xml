@@ -38,7 +38,10 @@
         <init-param>
             <description>Multiple packages, separated by semicolon(;), can be specified in param-value</description>
             <param-name>com.sun.jersey.config.property.packages</param-name>
-            <param-value>sk.sav.ibot.speciesrichness.rest;sk.sav.ibot.speciesrichness.rest.error</param-value>
+            <param-value>
+                sk.sav.ibot.speciesrichness.rest;
+                sk.sav.ibot.speciesrichness.rest.results;
+                sk.sav.ibot.speciesrichness.rest.error</param-value>
         </init-param>
         <init-param>
             <param-name>com.sun.jersey.api.json.POJOMappingFeature</param-name>
@@ -46,6 +49,7 @@
         </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
+    
     <servlet-mapping>
         <servlet-name>Faces Servlet</servlet-name>
         <url-pattern>/faces/*</url-pattern>
