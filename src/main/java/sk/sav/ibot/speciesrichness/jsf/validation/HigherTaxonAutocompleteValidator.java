@@ -1,13 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package sk.sav.ibot.speciesrichness.jsf.validation;
 
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.FacesValidator;
@@ -16,8 +10,9 @@ import javax.faces.validator.ValidatorException;
 import org.apache.commons.lang3.math.NumberUtils;
 
 /**
+ * WIP
  *
- * @author Matus
+ * @author Matus Kempa, Institute of Botany, SAS, Bratislava, Slovakia
  */
 //@ManagedBean(name = "higherTaxonValidator")
 //@RequestScoped
@@ -31,5 +26,5 @@ public class HigherTaxonAutocompleteValidator implements Validator {
             throw new ValidatorException(new FacesMessage("Invalid input value. You have to select item from the list."));
         }
     }
-    
+
 }

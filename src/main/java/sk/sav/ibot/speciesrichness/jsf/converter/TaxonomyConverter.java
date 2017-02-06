@@ -12,6 +12,7 @@ import sk.sav.ibot.speciesrichness.services.TaxonomyService;
 
 /**
  * Converter for Taxonomy. Taxonomy object is defined by its unique gbifkey.
+ *
  * @author Matus Kempa, Institute of Botany, SAS, Bratislava, Slovakia
  */
 @ManagedBean(name = "taxonomyConverter") //this is required because of the managed property injection
@@ -32,6 +33,7 @@ public class TaxonomyConverter implements Converter {
 
     /**
      * Taxonomy object is searched for in the database by given unique gbifkey.
+     *
      * @param fc
      * @param uic
      * @param string unique gbifkey
@@ -47,6 +49,7 @@ public class TaxonomyConverter implements Converter {
 
     /**
      * Object is converted into its representation as gbifkey.
+     *
      * @param fc
      * @param uic
      * @param o

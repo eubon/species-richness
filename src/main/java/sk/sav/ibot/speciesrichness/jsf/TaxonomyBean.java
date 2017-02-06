@@ -1,13 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package sk.sav.ibot.speciesrichness.jsf;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
@@ -35,22 +32,32 @@ public class TaxonomyBean implements Serializable {
     @ManagedProperty(value = "#{taxonomyController}")
     private transient TaxonomyController taxonomyController;
 
-    private int supertaxonGbifKey; //gbifKey of the selected higher taxon
-    private String supertaxonName; //name of the selected higher taxon
-    private List<Taxonomy> supertaxonHierarchy; //hierarchy in which the higher taxon is located
-    private String supertaxonRank;
+    private int higherTaxonGbifKey; //gbifKey of the selected higher taxon
+    private String higherTaxonName; //name of the selected higher taxon
+    private List<Taxonomy> higherTaxonHierarchy; //hierarchy in which the higher taxon is located
+    private String higherTaxonRank;
 
-    private int taxonGbifKey;
-    private String taxonName;
+    private int speciesTaxonGbifKey;
+    private String speciesTaxonName;
+
+    /**
+     * Database service for taxonomy data.
+     *
+     * @return
+     */
+    public TaxonomyService getTaxonomyService() {
+        return taxonomyService;
+    }
 
     public void setTaxonomyService(TaxonomyService taxonomyFacade) {
         this.taxonomyService = taxonomyFacade;
     }
 
-    public TaxonomyService getTaxonomyService() {
-        return taxonomyService;
-    }
-
+    /**
+     * GBIF service for taxonomy data
+     *
+     * @return
+     */
     public TaxonomyController getTaxonomyController() {
         return taxonomyController;
     }
@@ -59,52 +66,76 @@ public class TaxonomyBean implements Serializable {
         this.taxonomyController = taxonomyController;
     }
 
-    public int getSupertaxonGbifKey() {
-        return supertaxonGbifKey;
+    /**
+     * Gbif key of the selected higher taxon.
+     * @return 
+     */
+    public int getHigherTaxonGbifKey() {
+        return this.higherTaxonGbifKey;
     }
 
-    public void setSupertaxonGbifKey(int supertaxonGbifKey) {
-        this.supertaxonGbifKey = supertaxonGbifKey;
+    public void setHigherTaxonGbifKey(int higherTaxonGbifKey) {
+        this.higherTaxonGbifKey = higherTaxonGbifKey;
     }
 
-    public String getSupertaxonName() {
-        return supertaxonName;
+    /**
+     * Scientific name of the selected higher taxon.
+     * @return 
+     */
+    public String getHigherTaxonName() {
+        return higherTaxonName;
     }
 
-    public void setSupertaxonName(String supertaxonName) {
-        this.supertaxonName = supertaxonName;
+    public void setHigherTaxonName(String higherTaxonName) {
+        this.higherTaxonName = higherTaxonName;
     }
 
-    public List<Taxonomy> getSupertaxonHierarchy() {
-        return supertaxonHierarchy;
+    /**
+     * Hierarchy of the selected higher taxon, starting with that taxon, edning with the Kingdom.
+     * @return 
+     */
+    public List<Taxonomy> getHigherTaxonHierarchy() {
+        return higherTaxonHierarchy;
     }
 
-    public void setSupertaxonHierarchy(List<Taxonomy> supertaxonHierarchy) {
-        this.supertaxonHierarchy = supertaxonHierarchy;
+    public void setHigherTaxonHierarchy(List<Taxonomy> higherTaxonHierarchy) {
+        this.higherTaxonHierarchy = higherTaxonHierarchy;
     }
 
-    public String getSupertaxonRank() {
-        return supertaxonRank;
+    /**
+     * Rank of the selected higher taxon. 
+     * @return 
+     */
+    public String getHigherTaxonRank() {
+        return higherTaxonRank;
     }
 
-    public void setSupertaxonRank(String supertaxonRank) {
-        this.supertaxonRank = supertaxonRank;
+    public void setHigherTaxonRank(String higherTaxonRank) {
+        this.higherTaxonRank = higherTaxonRank;
     }
 
-    public int getTaxonGbifKey() {
-        return taxonGbifKey;
+    /**
+     * Gbif key of the selected species.
+     * @return species key, or 0 if no species has been selected
+     */
+    public int getSpeciesTaxonGbifKey() {
+        return speciesTaxonGbifKey;
     }
 
-    public void setTaxonGbifKey(int taxonGbifKey) {
-        this.taxonGbifKey = taxonGbifKey;
+    public void setSpeciesTaxonGbifKey(int speciesTaxonGbifKey) {
+        this.speciesTaxonGbifKey = speciesTaxonGbifKey;
     }
 
-    public String getTaxonName() {
-        return taxonName;
+    /**
+     * Name of the selected species.
+     * @return 
+     */
+    public String getSpeciesTaxonName() {
+        return speciesTaxonName;
     }
 
-    public void setTaxonName(String taxonName) {
-        this.taxonName = taxonName;
+    public void setSpeciesTaxonName(String speciesTaxonName) {
+        this.speciesTaxonName = speciesTaxonName;
     }
 
     /**
@@ -124,10 +155,10 @@ public class TaxonomyBean implements Serializable {
      */
     public void handleSelectHigherTaxon(SelectEvent e) {
         Taxonomy p = (Taxonomy) e.getObject();
-        this.supertaxonGbifKey = p.getGbifkey().intValue();
-        this.supertaxonName = p.getName() + " (" + p.getRank() + ")";
-        this.supertaxonHierarchy = p.getHigherHierarchy();
-        this.supertaxonRank = p.getRank();
+        this.higherTaxonGbifKey = p.getGbifkey().intValue();
+        this.higherTaxonName = p.getName() + " (" + p.getRank() + ")";
+        this.higherTaxonHierarchy = p.getHigherHierarchy();
+        this.higherTaxonRank = p.getRank();
     }
 
     /**
@@ -141,7 +172,7 @@ public class TaxonomyBean implements Serializable {
     public List<NameUsage> completeSpecies(String query) {
         if (query.matches("\\w+ \\w+")) {
             List<NameUsage> gbifTaxa = this.taxonomyController.suggestSpecies(query);
-            return TaxonomyController.filterByHigherTaxon(gbifTaxa, supertaxonGbifKey);
+            return TaxonomyController.filterByHigherTaxon(gbifTaxa, higherTaxonGbifKey);
         }
         return new ArrayList<>();
     }
@@ -154,9 +185,21 @@ public class TaxonomyBean implements Serializable {
     public void handleSelectSpecies(SelectEvent e) {
         if (e.getObject() instanceof NameUsageImpl) {
             NameUsage tw = (NameUsageImpl) e.getObject();
-            this.taxonGbifKey = tw.getKey();
-            this.taxonName = tw.getScientificName();
+            this.speciesTaxonGbifKey = tw.getKey();
+            this.speciesTaxonName = tw.getScientificName();
         }
+    }
+
+    /**
+     * Returns a set of species belonging to the selected higherTaxonGbifKey.
+     *
+     * @return
+     */
+    public Set<NameUsage> speciesOfHigherTaxon() {
+        if (this.higherTaxonGbifKey == 0) {
+            throw new IllegalArgumentException("Higher taxon not selected");
+        }
+        return this.taxonomyController.speciesOfHigherTaxon(higherTaxonGbifKey);
     }
 
 }

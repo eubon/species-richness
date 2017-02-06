@@ -1,12 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package sk.sav.ibot.speciesrichness.rest.results;
 
 import io.swagger.annotations.ApiModel;
-import java.util.HashSet;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -16,10 +10,9 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 /**
  * POJO class representing single cell of the result set.
  *
- * @author Matus
+ * @author Matus Kempa, Institute of Botany, SAS, Bratislava, Slovakia
  */
 @ApiModel(value = "Cell")
-//@XmlRootElement(name = "cell")
 public class ResultCell {
 
     private ResultCellBounds bounds;
@@ -32,7 +25,7 @@ public class ResultCell {
     public ResultCell() {
     }
 
-    public ResultCell(ResultCellBounds bounds, int year, int numOccurences, int taxonOccurences, int numSpecies,  Set<ResultSpecies> species) {
+    public ResultCell(ResultCellBounds bounds, int year, int numOccurences, int taxonOccurences, int numSpecies, Set<ResultSpecies> species) {
         this.bounds = bounds;
         this.year = year;
         this.numOccurences = numOccurences;
@@ -66,7 +59,9 @@ public class ResultCell {
     }
 
     /**
-     * Ratio of species occurences to the total number of occurences of higher taxon.
+     * Ratio of species occurences to the total number of occurences of higher
+     * taxon.
+     *
      * @return value between 0.0 and 1.0
      */
     public double getTaxonRatio() {
@@ -76,7 +71,7 @@ public class ResultCell {
         double result = (double) this.taxonOccurences / this.numOccurences;
         return result;
     }
-    
+
     public int getNumSpecies() {
         return this.numSpecies;
     }

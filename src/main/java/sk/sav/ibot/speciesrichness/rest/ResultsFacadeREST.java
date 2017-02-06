@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package sk.sav.ibot.speciesrichness.rest;
 
 import io.swagger.annotations.Api;
@@ -29,11 +24,10 @@ import sk.sav.ibot.speciesrichness.logic.NameUsage;
 import sk.sav.ibot.speciesrichness.logic.TaxonomyController;
 import sk.sav.ibot.speciesrichness.rest.error.ErrorMessage;
 
-
 /**
  * Provider of REST services /api/occurences/
  *
- * @author Matus
+ * @author Matus Kempa, Institute of Botany, SAS, Bratislava, Slovakia
  */
 @Component
 @Scope("request")
@@ -70,7 +64,8 @@ public class ResultsFacadeREST {
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     @ApiOperation(value = "Get occurences of the higher taxon", httpMethod = "GET", response = ResultItems.class)
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "OK. Returns layers of cells with occurences of the higher taxon", response = ResultItems.class),
+        @ApiResponse(code = 200, message = "OK. Returns layers of cells with occurences of the higher taxon", response = ResultItems.class)
+        ,
         @ApiResponse(code = 500, message = "Error occured", response = ErrorMessage.class)
     })
     public ResultItems getResults(
@@ -85,23 +80,21 @@ public class ResultsFacadeREST {
             @ApiParam(value = "South bound of the grid in degrees", required = false) @DefaultValue("29") @QueryParam("south") double south,
             @ApiParam(value = "West bound of the grid in degrees", required = false) @DefaultValue("-10") @QueryParam("west") double west
     ) {
-        
+
         try {
-            //TaxonomyController tc = new SpeciesGbifClient();
-            //supertaxon can be either gbif key or scientific name
-            
+
             NameUsage higherTaxon = this.taxonomyController.parseName(supertaxon, false, true); //strict matching of the name
             int supertaxonGbifKey = higherTaxon.getKey();
             String supertaxonName = higherTaxon.getScientificName();
             String supertaxonRank = higherTaxon.getRank();
-            
+
             //taxon can be either gbif key, scientific name, or  default ("0") when not checking for its occurences
             NameUsage speciesTaxon = this.taxonomyController.parseName(taxon, true, true); //strict matching of the name
             int taxonGbifKey = speciesTaxon.getKey();
             String taxonName = speciesTaxon.getScientificName();
-            
+
             Set<NameUsage> species = this.taxonomyController.speciesOfHigherTaxon(supertaxonGbifKey);
-            
+
             //CoredataController cc = new CoredataController(coredataService);
             SearchTerms search = new SearchTerms(spatialResolution, yearFrom,
                     yearTo, temporalResolution, supertaxonName, supertaxonRank, supertaxonGbifKey,
@@ -113,7 +106,7 @@ public class ResultsFacadeREST {
             //Logger.getLogger(ResultsFacadeREST.class.getName()).log(Level.SEVERE, null, ex);
             throw new IllegalArgumentException(ex.getMessage());
         }
-        
+
     }
 
 }

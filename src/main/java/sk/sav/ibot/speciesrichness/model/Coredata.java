@@ -1,4 +1,3 @@
-
 package sk.sav.ibot.speciesrichness.model;
 
 import java.io.Serializable;
@@ -8,14 +7,16 @@ import javax.persistence.Table;
 import sk.sav.ibot.speciesrichness.geo.LatLon;
 
 /**
- * Model for table containing all occurences data. 
- * Row contains taxonkey (species), coordinates, year of the record, number of records at this location
+ * Model for table containing all occurences data. Row contains taxonkey
+ * (species), coordinates, year of the record, number of records at this
+ * location
+ *
  * @author Matus Kempa, Institute of Botany, SAS, Bratislava, Slovakia
  */
 @Entity
 @Table(name = "coredata_sorted")
 public class Coredata implements Serializable {
-    
+
     @Id
     private Integer id;
     private Integer taxonkey;
@@ -102,6 +103,5 @@ public class Coredata implements Serializable {
     public String toString() {
         return "Coredata{" + "id=" + id + ", taxonkey=" + taxonkey + ", latitude=" + latitude + ", longitude=" + longitude + ", countrycode=" + countrycode + ", cyear=" + cyear + ", numRecords=" + numRecords + '}';
     }
-    
-        
+
 }

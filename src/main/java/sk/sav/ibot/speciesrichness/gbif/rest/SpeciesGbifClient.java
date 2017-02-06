@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package sk.sav.ibot.speciesrichness.gbif.rest;
 
 import java.util.Arrays;
@@ -25,7 +20,7 @@ import sk.sav.ibot.speciesrichness.values.Defaults;
 /**
  * Provides methods for querying the GBIF species API
  *
- * @author Matus
+ * @author Matus Kempa, Institute of Botany, SAS, Bratislava, Slovakia
  */
 @Service(value = "speciesGbifClient")
 @Scope(value = "singleton")

@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package sk.sav.ibot.speciesrichness.jsf.converter;
 
 import javax.faces.bean.ManagedBean;
@@ -17,7 +13,8 @@ import sk.sav.ibot.speciesrichness.logic.TaxonomyController;
 
 /**
  * Converter for NameUsageImpl.
- * @author Matus
+ *
+ * @author Matus Kempa, Institute of Botany, SAS, Bratislava, Slovakia
  */
 @ManagedBean(name = "nameUsageConverter")
 @RequestScoped
@@ -33,13 +30,16 @@ public class NameUsageConverter implements Converter {
     public void setTaxonomyController(TaxonomyController taxonomyController) {
         this.taxonomyController = taxonomyController;
     }
-    
+
     /**
-     * If string is gbifkey, the taxon is fetched from GBIF and returned as an instance of NameUsageImpl.
+     * If string is gbifkey, the taxon is fetched from GBIF and returned as an
+     * instance of NameUsageImpl.
+     *
      * @param fc
      * @param uic
      * @param string
-     * @return Instance of NameUsageImpl if string was found in GBIF. Null otherwise.
+     * @return Instance of NameUsageImpl if string was found in GBIF. Null
+     * otherwise.
      */
     @Override
     public Object getAsObject(FacesContext fc, UIComponent uic, String string) {
@@ -50,11 +50,14 @@ public class NameUsageConverter implements Converter {
     }
 
     /**
-     * Object instance of NameUsageImpl is uniquely identified by its gbifKey property.
+     * Object instance of NameUsageImpl is uniquely identified by its gbifKey
+     * property.
+     *
      * @param fc
      * @param uic
      * @param o
-     * @return gbifKey as string, if object is instance of NameUsageImpl. Empty string otherwise
+     * @return gbifKey as string, if object is instance of NameUsageImpl. Empty
+     * string otherwise
      */
     @Override
     public String getAsString(FacesContext fc, UIComponent uic, Object o) {

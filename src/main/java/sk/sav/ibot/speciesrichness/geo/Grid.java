@@ -23,6 +23,10 @@ public class Grid {
         this.topRight = topRight;
     }
 
+    /**
+     * Coordinates of the bottom-left corner.
+     * @return 
+     */
     public LatLon getBottomLeft() {
         return bottomLeft;
     }
@@ -31,6 +35,10 @@ public class Grid {
         this.bottomLeft = bottomLeft;
     }
 
+    /**
+     * Coordinates of the top-right corner.
+     * @return 
+     */
     public LatLon getTopRight() {
         return topRight;
     }
@@ -40,7 +48,7 @@ public class Grid {
     }
 
     /**
-     * Getter for the cells of the grid
+     * Cells of the grid.
      *
      * @return
      */
@@ -52,8 +60,14 @@ public class Grid {
         this.cells = cells;
     }
 
-    public void occurencesInGrid(int spatialResolution, /*int temporalResolution, int startYear,*/ List<Coredata> data) {
-        this.occurencesInGrid(spatialResolution, /*temporalResolution, startYear,*/ data, 0);
+    /**
+     * Wrapper for the occurencesInGrid(int spatialResolution, List data, int taxonkey) method,
+     * where taxonkey is not needed. Zero is passed as taxonkey.
+     * @param spatialResolution Width and height of cells contained in the grid
+     * @param data Data the cells are created for
+     */
+    public void occurencesInGrid(int spatialResolution, List<Coredata> data) {
+        this.occurencesInGrid(spatialResolution, data, 0);
     }
     
     /**

@@ -39,6 +39,10 @@ public class Cell implements Comparable<Cell> {
         this.taxonOccurences = taxonOccurences;
     }
 
+    /**
+     * Coordinates of the bottom-left corner
+     * @return 
+     */
     public LatLon getBottomLeft() {
         return bottomLeft;
     }
@@ -47,6 +51,10 @@ public class Cell implements Comparable<Cell> {
         this.bottomLeft = bottomLeft;
     }
 
+    /**
+     * Coordinates of the top-right corner
+     * @return 
+     */
     public LatLon getTopRight() {
         return topRight;
     }
@@ -55,6 +63,12 @@ public class Cell implements Comparable<Cell> {
         this.topRight = topRight;
     }
 
+    /**
+     * Year the occurences in this cell belong to. A cell is associated with only one
+     * year. If there are occurences belonging to the same area but to different year, 
+     * another cell must be created.
+     * @return 
+     */
     public int getYear() {
         return year;
     }
@@ -63,6 +77,10 @@ public class Cell implements Comparable<Cell> {
         this.year = year;
     }
 
+    /**
+     * Number of all occurences in the area of this cell in the year associated with this cell.
+     * @return 
+     */
     public int getNumOccurences() {
         return numOccurences;
     }
@@ -71,11 +89,20 @@ public class Cell implements Comparable<Cell> {
         this.numOccurences = numOccurences;
     }
 
+    /**
+     * Increments number of all occurences by value.
+     * @param value can be positive, zero, or negative. The number of occurences is
+     * changed accordingly
+     */
     public void addNumOccurences(int value) {
         //value can be negative
         this.numOccurences += value;
     }
 
+    /**
+     * Occurences of particular taxon in the area of this cell in the year associated with this cell.
+     * @return 
+     */
     public int getTaxonOccurences() {
         return taxonOccurences;
     }
@@ -84,17 +111,25 @@ public class Cell implements Comparable<Cell> {
         this.taxonOccurences = taxonOccurences;
     }
     
+    /**
+     * Increment number of taxon occurences by value.
+     * @param value 
+     */
     public void addTaxonOccurences(int value) {
         //value can be negative
         this.taxonOccurences += value;
     }
     
+    /**
+     * Number of species localized in the area of this cell.
+     * @return 
+     */
     public int getNumSpecies() {
         return this.species.size();
     }
 
     /**
-     * Getter for species in the cell. Species in the set is represented by its
+     * Species localized in the area of this cell. Species in the set is represented by its
      * unique taxonkey.
      * @return Set of taxonkeys
      */
@@ -102,19 +137,22 @@ public class Cell implements Comparable<Cell> {
         return species;
     }
 
-    /**
-     * Setter for species in the cell. Species in the set is represented by its
-     * unique taxonkey.
-     * @param taxonkey Unique value representing a GBIF species
-     */
     public void setSpecies(Set<Integer> taxonkey) {
         this.species = taxonkey;
     }
 
+    /**
+     * Adds taxonkey to the set of species.
+     * @param taxonkey 
+     */
     public void addSpecies(Integer taxonkey) {
         this.species.add(taxonkey);
     }
     
+    /**
+     * Adds a collection of taxonkeys to the set of species.
+     * @param taxonkeys 
+     */
     public void addSpecies(Collection<Integer> taxonkeys) {
         this.species.addAll(taxonkeys);
     }

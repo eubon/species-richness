@@ -8,8 +8,8 @@ package sk.sav.ibot.speciesrichness.exception;
 import javax.ws.rs.core.Response;
 
 /**
- *
- * @author Matus
+ * WIP
+ * @author Matus Kempa, Institute of Botany, SAS, Bratislava, Slovakia
  */
 public class TaxonNameException extends Exception {
 

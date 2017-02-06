@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package sk.sav.ibot.speciesrichness.rest.results;
 
 import java.util.List;
@@ -10,11 +5,12 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 
 /**
+ * POJO class representing single layer of cells with certain year.
  *
- * @author Matus
+ * @author Matus Kempa, Institute of Botany, SAS, Bratislava, Slovakia
  */
 public class Layer implements Comparable<Layer> {
-    
+
     private int year;
     private List<ResultCell> cells;
 
@@ -53,5 +49,5 @@ public class Layer implements Comparable<Layer> {
     public String toString() {
         return "Layer{" + "year=" + year + ", cells=" + cells.size() + '}';
     }
-    
+
 }

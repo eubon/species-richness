@@ -1,57 +1,37 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package sk.sav.ibot.speciesrichness.jsf;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.Serializable;
-import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
-import javax.faces.component.UIInput;
-import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 import sk.sav.ibot.speciesrichness.rest.results.ResultItems;
 import sk.sav.ibot.speciesrichness.rest.results.SearchTerms;
 import sk.sav.ibot.speciesrichness.logic.CoredataController;
 import sk.sav.ibot.speciesrichness.logic.NameUsage;
-import sk.sav.ibot.speciesrichness.logic.TaxonomyController;
-import sk.sav.ibot.speciesrichness.model.Taxonomy;
 import sk.sav.ibot.speciesrichness.values.Defaults;
 
 /**
  * JSF bean, recieves input values and returns results obtained by logic.
  *
- * @author Matus
+ * @author Matus Kempa, Institute of Botany, SAS, Bratislava, Slovakia
  */
 @ManagedBean(name = "data")
 @SessionScoped
 public class DataBean implements Serializable {
 
-    //@ManagedProperty(value = "#{coredataService}")
-    //private transient CoredataService coredataService;
     @ManagedProperty(value = "#{coredataController}")
     private transient CoredataController coredataController;
-
-    @ManagedProperty(value = "#{taxonomyController}")
-    private transient TaxonomyController taxonomyController;
 
     @ManagedProperty(value = "#{taxonomyBean}")
     private TaxonomyBean taxonomyBean;
 
-    private String higherTaxonName;
-    private List<Taxonomy> higherTaxonHierarchy;
-    private int taxonKey;
-    private String taxonName;
     private double bbNorth = Defaults.NORTH;
     private double bbEast = Defaults.EAST;
     private double bbSouth = Defaults.SOUTH;
@@ -66,6 +46,11 @@ public class DataBean implements Serializable {
 
     private String occurencesJson;
 
+    /**
+     * Class containing the logic of processing occurences data
+     *
+     * @return
+     */
     public CoredataController getCoredataController() {
         return coredataController;
     }
@@ -74,52 +59,12 @@ public class DataBean implements Serializable {
         this.coredataController = coredataController;
     }
 
-    public TaxonomyController getTaxonomyController() {
-        return taxonomyController;
-    }
-
-    public void setTaxonomyController(TaxonomyController taxonomyController) {
-        this.taxonomyController = taxonomyController;
-    }
-
     public TaxonomyBean getTaxonomyBean() {
         return taxonomyBean;
     }
 
     public void setTaxonomyBean(TaxonomyBean taxonomyBean) {
         this.taxonomyBean = taxonomyBean;
-    }
-
-    public String getHigherTaxonName() {
-        return higherTaxonName;
-    }
-
-    public void setHigherTaxonName(String higherTaxonName) {
-        this.higherTaxonName = higherTaxonName;
-    }
-
-    public List<Taxonomy> getHigherTaxonHierarchy() {
-        return higherTaxonHierarchy;
-    }
-
-    public void setHigherTaxonHierarchy(List<Taxonomy> higherTaxonHierarchy) {
-        this.higherTaxonHierarchy = higherTaxonHierarchy;
-    }
-
-    public int getTaxonKey() {
-        return taxonKey;
-    }
-
-    public void setTaxonKey(int taxonKey) {
-        this.taxonKey = taxonKey;
-    }
-
-    public String getTaxonName() {
-        return taxonName;
-    }
-
-    public void setTaxonName(String taxonName) {
-        this.taxonName = taxonName;
     }
 
     public double getBbWest() {
@@ -226,23 +171,16 @@ public class DataBean implements Serializable {
      */
     public String retrieveCells() {
         //restrieve species by the higher taxon
-        //TaxonomyController tc = new SpeciesGbifClient(this.taxonomyBean.getTaxonomyService());
-        if (taxonomyBean.getSupertaxonGbifKey() == 0) { //not autocomplete value
-            throw new NullPointerException("No result found for taxon " + taxonomyBean.getSupertaxonName());
+        if (taxonomyBean.getHigherTaxonGbifKey() == 0) { //not autocomplete value
+            throw new NullPointerException("No result found for taxon " + taxonomyBean.getHigherTaxonName());
         }
-        //Set<GbifTaxon> species = SpeciesGbifClient.retrieveSpeciesOfHigherTaxon(taxonomyBean.getSupertaxonGbifKey());
-        //TaxonomyController tc = new TaxonomyController(new SpeciesGbifClient());
-        Set<NameUsage> species = this.taxonomyController.speciesOfHigherTaxon(taxonomyBean.getSupertaxonGbifKey());
-        //set values for serialization
-        this.higherTaxonName = taxonomyBean.getSupertaxonName();
-        this.higherTaxonHierarchy = taxonomyBean.getSupertaxonHierarchy();
-        this.taxonKey = taxonomyBean.getTaxonGbifKey();
-        this.taxonName = taxonomyBean.getTaxonName();
+
+        Set<NameUsage> species = this.taxonomyBean.speciesOfHigherTaxon();
 
         SearchTerms terms = new SearchTerms(this.spatial, this.yearFrom,
-                this.yearTo, this.temporalRes, this.higherTaxonName,
-                this.taxonomyBean.getSupertaxonRank(), this.taxonomyBean.getSupertaxonGbifKey(),
-                this.taxonomyBean.getTaxonName(), this.taxonomyBean.getTaxonGbifKey(),
+                this.yearTo, this.temporalRes, taxonomyBean.getHigherTaxonName(),
+                this.taxonomyBean.getHigherTaxonRank(), this.taxonomyBean.getHigherTaxonGbifKey(),
+                this.taxonomyBean.getSpeciesTaxonName(), this.taxonomyBean.getSpeciesTaxonGbifKey(),
                 this.bbNorth, this.bbEast, this.bbSouth, this.bbWest);
 
         ResultItems results = this.coredataController.retrieveResults(terms, species);

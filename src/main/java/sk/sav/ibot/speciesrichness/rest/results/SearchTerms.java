@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package sk.sav.ibot.speciesrichness.rest.results;
 
 import io.swagger.annotations.ApiModel;
@@ -10,7 +5,7 @@ import io.swagger.annotations.ApiModel;
 /**
  * POJO class encapsulating search conditions. Is included in output.
  *
- * @author Matus
+ * @author Matus Kempa, Institute of Botany, SAS, Bratislava, Slovakia
  */
 @ApiModel(value = "Query")
 public class SearchTerms {
@@ -19,12 +14,12 @@ public class SearchTerms {
     private int yearFrom;
     private int yearTo;
     private int temporalResolution;
-    private String supertaxonName;
-    private String supertaxonRank;
-    private int supertaxonGbifKey;
+    private String higherTaxonName;
+    private String higherTaxonRank;
+    private int higherTaxonGbifKey;
 
-    private String taxonName; //species
-    private int taxonGbifKey;
+    private String speciesTaxonName; //species
+    private int speciesTaxonGbifKey;
 
     private double boundsNorth;
     private double boundsEast;
@@ -34,7 +29,7 @@ public class SearchTerms {
     public SearchTerms() {
     }
 
-    public SearchTerms(int spatialResolution, int yearFrom, int yearTo, int temporalResolution, 
+    public SearchTerms(int spatialResolution, int yearFrom, int yearTo, int temporalResolution,
             String supertaxonName, String supertaxonRank, int supertaxonGbifKey,
             String taxonName, int taxonGbifKey,
             double north, double east, double south, double west) {
@@ -42,11 +37,11 @@ public class SearchTerms {
         this.yearFrom = yearFrom;
         this.yearTo = yearTo;
         this.temporalResolution = temporalResolution;
-        this.supertaxonName = supertaxonName;
-        this.supertaxonRank = supertaxonRank;
-        this.supertaxonGbifKey = supertaxonGbifKey;
-        this.taxonName = taxonName;
-        this.taxonGbifKey = taxonGbifKey;
+        this.higherTaxonName = supertaxonName;
+        this.higherTaxonRank = supertaxonRank;
+        this.higherTaxonGbifKey = supertaxonGbifKey;
+        this.speciesTaxonName = taxonName;
+        this.speciesTaxonGbifKey = taxonGbifKey;
         this.boundsNorth = north;
         this.boundsEast = east;
         this.boundsSouth = south;
@@ -69,36 +64,36 @@ public class SearchTerms {
         return this.temporalResolution;
     }
 
-    public String getSupertaxonName() {
-        return this.supertaxonName;
+    public String getHigherTaxonName() {
+        return this.higherTaxonName;
     }
 
-    public String getSupertaxonRank() {
-        return supertaxonRank;
+    public String getHigherTaxonRank() {
+        return higherTaxonRank;
     }
 
-    public void setSupertaxonRank(String supertaxonRank) {
-        this.supertaxonRank = supertaxonRank;
+    public void setHigherTaxonRank(String higherTaxonRank) {
+        this.higherTaxonRank = higherTaxonRank;
     }
 
-    public int getSupertaxonGbifKey() {
-        return this.supertaxonGbifKey;
+    public int getHigherTaxonGbifKey() {
+        return this.higherTaxonGbifKey;
     }
 
-    public String getTaxonName() {
-        return taxonName;
+    public String getSpeciesTaxonName() {
+        return speciesTaxonName;
     }
 
-    public void setTaxonName(String taxonName) {
-        this.taxonName = taxonName;
+    public void setSpeciesTaxonName(String speciesTaxonName) {
+        this.speciesTaxonName = speciesTaxonName;
     }
 
-    public int getTaxonGbifKey() {
-        return taxonGbifKey;
+    public int getSpeciesTaxonGbifKey() {
+        return speciesTaxonGbifKey;
     }
 
-    public void setTaxonGbifKey(int taxonGbifKey) {
-        this.taxonGbifKey = taxonGbifKey;
+    public void setSpeciesTaxonGbifKey(int speciesTaxonGbifKey) {
+        this.speciesTaxonGbifKey = speciesTaxonGbifKey;
     }
 
     public double getBoundsNorth() {
@@ -133,12 +128,12 @@ public class SearchTerms {
         this.temporalResolution = temporalResolution;
     }
 
-    public void setSupertaxonName(String supertaxonName) {
-        this.supertaxonName = supertaxonName;
+    public void setHigherTaxonName(String higherTaxonName) {
+        this.higherTaxonName = higherTaxonName;
     }
 
-    public void setSupertaxonGbifKey(int supertaxonGbifKey) {
-        this.supertaxonGbifKey = supertaxonGbifKey;
+    public void setHigherTaxonGbifKey(int higherTaxonGbifKey) {
+        this.higherTaxonGbifKey = higherTaxonGbifKey;
     }
 
     public void setBoundsNorth(double boundsNorth) {
@@ -159,7 +154,7 @@ public class SearchTerms {
 
     @Override
     public String toString() {
-        return "SearchTerms{" + "spatialResolution=" + spatialResolution + ", yearFrom=" + yearFrom + ", yearTo=" + yearTo + ", temporalResolution=" + temporalResolution + ", supertaxonName=" + supertaxonName + ", supertaxonRank=" + supertaxonRank + ", supertaxonGbifKey=" + supertaxonGbifKey + ", taxonName=" + taxonName + ", taxonGbifKey=" + taxonGbifKey + ", boundsNorth=" + boundsNorth + ", boundsEast=" + boundsEast + ", boundsSouth=" + boundsSouth + ", boundsWest=" + boundsWest + '}';
+        return "SearchTerms{" + "spatialResolution=" + spatialResolution + ", yearFrom=" + yearFrom + ", yearTo=" + yearTo + ", temporalResolution=" + temporalResolution + ", supertaxonName=" + higherTaxonName + ", supertaxonRank=" + higherTaxonRank + ", supertaxonGbifKey=" + higherTaxonGbifKey + ", taxonName=" + speciesTaxonName + ", taxonGbifKey=" + speciesTaxonGbifKey + ", boundsNorth=" + boundsNorth + ", boundsEast=" + boundsEast + ", boundsSouth=" + boundsSouth + ", boundsWest=" + boundsWest + '}';
     }
 
 }

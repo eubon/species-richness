@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package sk.sav.ibot.speciesrichness.model;
 
 import java.io.Serializable;
@@ -20,7 +15,7 @@ import javax.persistence.Table;
  * ranks Genus and higher. Rows are identified by unique gbifkey, name, rank of
  * the taxon, and parent in the hierarchy.
  *
- * @author Matus
+ * @author Matus Kempa, Institute of Botany, SAS, Bratislava, Slovakia
  */
 @Entity
 @Table(name = "taxonomy")

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package sk.sav.ibot.speciesrichness.rest.results;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
@@ -16,7 +11,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * POJO class representing complete output. Contains search terms and layers of
  * cells
  *
- * @author Matus
+ * @author Matus Kempa, Institute of Botany, SAS, Bratislava, Slovakia
  */
 @ApiModel(value = "Response")
 @XmlRootElement(name = "response")
@@ -24,7 +19,7 @@ public class ResultItems {
 
     @XmlElement(name = "query")
     private SearchTerms terms;
-    
+
     private List<Layer> layers;
 
     public ResultItems() {

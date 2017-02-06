@@ -1,10 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package sk.sav.ibot.speciesrichness.util;
 
+import org.hibernate.HibernateException;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
@@ -30,7 +26,7 @@ public class HibernateUtil {
             sb.applySettings(cfg.getProperties());
             StandardServiceRegistry standardServiceRegistry = sb.build();
             sessionFactory = cfg.buildSessionFactory(standardServiceRegistry);
-        } catch (Throwable th) {
+        } catch (HibernateException th) {
             System.err.println("Enitial SessionFactory creation failed" + th);
             throw new ExceptionInInitializerError(th);
         }

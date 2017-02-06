@@ -11,6 +11,7 @@ import sk.sav.ibot.speciesrichness.model.Coredata;
 
 /**
  * Service layer calling DAO layer for Coredata.
+ *
  * @author Matus Kempa, Institute of Botany, SAS, Bratislava, Slovakia
  */
 @Service("coredataService")
@@ -25,8 +26,10 @@ public class CoredataServiceImpl implements CoredataService {
     }
 
     /**
-     * Fetches coredata by specified taxonkeys within the specified range of years.
-     * The results are fetched for every 500 taxonkeys in order to avoid long queries in DAO.
+     * Fetches coredata by specified taxonkeys within the specified range of
+     * years. The results are fetched for every 500 taxonkeys in order to avoid
+     * long queries in DAO.
+     *
      * @param taxonkeys list of species' taxonkeys whose occurences are fetched
      * @param sinceYear lower value of the years range. This value is included.
      * @param untilYear Upper value of the years range. This value is included.
@@ -75,5 +78,5 @@ public class CoredataServiceImpl implements CoredataService {
         }
         return this.coredataDAO.getAllTaxonkeys(sinceYear, untilYear);
     }
-    
+
 }

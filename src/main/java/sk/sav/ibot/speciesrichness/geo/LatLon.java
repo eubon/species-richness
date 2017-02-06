@@ -2,10 +2,11 @@ package sk.sav.ibot.speciesrichness.geo;
 
 /**
  * Class representing spatial point.
+ *
  * @author Matus Kempa, Institute of Botany, SAS, Bratislava, Slovakia
  */
 public class LatLon {
-    
+
     private double latitude;
     private double longitude;
 
@@ -20,6 +21,11 @@ public class LatLon {
         this.longitude = longitude;
     }
 
+    /**
+     * Geographical latitude.
+     *
+     * @return
+     */
     public double getLatitude() {
         return latitude;
     }
@@ -28,6 +34,11 @@ public class LatLon {
         this.latitude = latitude;
     }
 
+    /**
+     * Geographical longitude.
+     *
+     * @return
+     */
     public double getLongitude() {
         return longitude;
     }
@@ -39,7 +50,7 @@ public class LatLon {
     @Override
     public String toString() {
         return "(" + latitude + ", " + longitude + ")";
-    }    
+    }
 
     @Override
     public int hashCode() {
@@ -51,8 +62,9 @@ public class LatLon {
 
     /**
      * Two points are equal if their latitudes and longitudes are equal.
+     *
      * @param obj
-     * @return 
+     * @return
      */
     @Override
     public boolean equals(Object obj) {
@@ -68,5 +80,5 @@ public class LatLon {
         }
         return Double.doubleToLongBits(this.longitude) == Double.doubleToLongBits(other.longitude);
     }
-    
+
 }

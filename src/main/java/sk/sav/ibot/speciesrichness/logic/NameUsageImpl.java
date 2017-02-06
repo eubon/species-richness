@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package sk.sav.ibot.speciesrichness.logic;
 
 import java.util.HashSet;
@@ -10,17 +5,18 @@ import java.util.Set;
 import sk.sav.ibot.speciesrichness.gbif.json.GbifTaxon;
 
 /**
- * Used for storing basic information about taxonomy object
- * Either species or higher taxon
- * @author Matus
+ * Used for storing basic information about taxonomy object Either species or
+ * higher taxon
+ *
+ * @author Matus Kempa, Institute of Botany, SAS, Bratislava, Slovakia
  */
 public class NameUsageImpl implements NameUsage {
-    
+
     private int gbifKey;
     private String scientificName;
     private String rank;
     private String matchType;
-    
+
     private Set<Integer> higherKeys = new HashSet<>();
 
     public NameUsageImpl() {
@@ -32,7 +28,7 @@ public class NameUsageImpl implements NameUsage {
         this.rank = rank;
         this.matchType = matchType;
     }
-    
+
     public NameUsageImpl(GbifTaxon taxon) {
         this.gbifKey = taxon.getKey() != null ? taxon.getKey() : taxon.getUsageKey();
         this.scientificName = taxon.getScientificName();
@@ -83,7 +79,8 @@ public class NameUsageImpl implements NameUsage {
 
     /**
      * Set of higher taxa gbif keys that this taxon belongs to
-     * @return 
+     *
+     * @return
      */
     public Set<Integer> getHigherKeys() {
         return higherKeys;
@@ -92,12 +89,13 @@ public class NameUsageImpl implements NameUsage {
     public void setHigherKeys(Set<Integer> higherKeys) {
         this.higherKeys = higherKeys;
     }
-    
+
     /**
-     * Is the key present in the higher hierarchy of this taxon?
-     * In other words, does this taxon belongs to higher taxon identified by key?
+     * Is the key present in the higher hierarchy of this taxon? In other words,
+     * does this taxon belongs to higher taxon identified by key?
+     *
      * @param key
-     * @return 
+     * @return
      */
     @Override
     public boolean isBelongsTo(int key) {
@@ -108,7 +106,5 @@ public class NameUsageImpl implements NameUsage {
     public String toString() {
         return "NameUsageImpl{" + "gbifKey=" + gbifKey + ", scientificName=" + scientificName + ", rank=" + rank + ", matchType=" + matchType + '}';
     }
-
-    
 
 }

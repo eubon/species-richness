@@ -1,18 +1,13 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package sk.sav.ibot.speciesrichness.gbif.rest;
 
 import java.util.List;
 import java.util.Set;
-import sk.sav.ibot.speciesrichness.exception.TaxonNameException;
 import sk.sav.ibot.speciesrichness.gbif.json.GbifTaxon;
 
 /**
  *
- * @author Matus
+ * @author Matus Kempa, Institute of Botany, SAS, Bratislava, Slovakia
  */
 public interface GbifClient {
     

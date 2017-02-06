@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package sk.sav.ibot.speciesrichness.jsf.custom.renderer;
 
 import com.sun.faces.renderkit.Attribute;
@@ -25,8 +20,8 @@ import javax.faces.context.ResponseWriter;
 import javax.faces.render.FacesRenderer;
 
 /**
- * Component for twitter bootstrap alerts.
- * Overrides default JSF Message renderer with Bootstrap alert design.
+ * Component for twitter bootstrap alerts. Overrides default JSF Message
+ * renderer with Bootstrap alert design.
  *
  * @author vlcekmi3 (https://gist.github.com/vlcekmi3/4151211)
  */

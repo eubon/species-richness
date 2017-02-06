@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package sk.sav.ibot.speciesrichness.logic;
 
 import java.util.ArrayList;
@@ -31,9 +26,9 @@ import sk.sav.ibot.speciesrichness.rest.results.ResultSpecies;
 import sk.sav.ibot.speciesrichness.services.CoredataService;
 
 /**
- * This class does the logic of obtaining the correct data
+ * This class does the logic of obtaining the correct occurences data
  *
- * @author Matus
+ * @author Matus Kempa, Institute of Botany, SAS, Bratislava, Slovakia
  */
 @Service(value = "coredataController")
 public class CoredataController {
@@ -70,7 +65,7 @@ public class CoredataController {
         Grid grid = new Grid(new LatLon(search.getBoundsSouth(), search.getBoundsWest()), new LatLon(search.getBoundsNorth(), search.getBoundsEast()));
         //compute the cells in grid from result data
         //the set of keys found among the results is the sideproduct
-        Set<Integer> taxaUsed = grid.occurencesInGrid(search.getSpatialResolution(), data, search.getTaxonGbifKey());
+        Set<Integer> taxaUsed = grid.occurencesInGrid(search.getSpatialResolution(), data, search.getSpeciesTaxonGbifKey());
         //we use those taxa to create a map of used species - key, taxon
         Map<Integer, NameUsage> hashedNames = makeUsedSpecies(taxaUsed, species);
 
@@ -106,15 +101,16 @@ public class CoredataController {
         }
         return results;
     }
-    */
-
+     */
     /**
-     * Arranges layers of cells into JAXB friendly list of objects.
-     * Each cell contains a set of species in form of taxa keys. These keys are
-     * looked at the map of names and sets of ResultSpecies are created for each cell.
+     * Arranges layers of cells into JAXB friendly list of objects. Each cell
+     * contains a set of species in form of taxa keys. These keys are looked at
+     * the map of names and sets of ResultSpecies are created for each cell.
+     *
      * @param cells Cells of the grid mapped to the year they belong to
      * @param names map the names are fetched from for taxonkeys of each cell
-     * @return list of Layer object where each layer contains list of cells belonging to specified year
+     * @return list of Layer object where each layer contains list of cells
+     * belonging to specified year
      */
     public List<Layer> makeResultLayers(Map<Integer, List<Cell>> cells, Map<Integer, NameUsage> names) {
         if (cells == null) {
@@ -175,9 +171,9 @@ public class CoredataController {
     }
 
     /**
-     * Produces a list of cells where each cell is unique. Number
-     * of records and species for duplicate cells cumulate into their respective cell they belong to
-     * (according to Cell.equals method) in the dirty list.
+     * Produces a list of cells where each cell is unique. Number of records and
+     * species for duplicate cells cumulate into their respective cell they
+     * belong to (according to Cell.equals method) in the dirty list.
      *
      * @param cells The dirty list with cell duplicates
      * @return ArrayList of unique cells
@@ -201,12 +197,15 @@ public class CoredataController {
         }
         return cleaned;
     }
-    
+
     /**
-     * Selects only those names from allnames whose keys are present int the taxaKeys
+     * Selects only those names from allnames whose keys are present int the
+     * taxaKeys
+     *
      * @param taxaKeys set of keys the names are identified by
      * @param allNames collection of all names we choose from
-     * @return map where keys are unique gbif keys and values are objects identified by those keys
+     * @return map where keys are unique gbif keys and values are objects
+     * identified by those keys
      */
     public Map<Integer, NameUsage> makeUsedSpecies(Set<Integer> taxaKeys, Collection<NameUsage> allNames) {
         Map<Integer, NameUsage> names = new HashMap<>(taxaKeys.size());
@@ -217,7 +216,7 @@ public class CoredataController {
         }
         return names;
     }
-    
+
     /**
      * Each cell is checked for its year, the cell is then assigned the closest
      * greater year according to the step and start. See
@@ -248,12 +247,11 @@ public class CoredataController {
     }
 
     /**
-     * Creates a closest greater or equal number A to subject such that 
-     * A = x * step + start and A >= subject. The converged value does not exceed the end value.
-     * E.g. start = 2, step = 5, end = 11. Subject 2 results in 2. 
-     * For subject = {3, 4, 5, 6, 7} result = 7. 
-     * For subject = {8, 9, 10, 11} result = 11 (reached end value)
-     * etc.
+     * Creates a closest greater or equal number A to subject such that A = x *
+     * step + start and A >= subject. The converged value does not exceed the
+     * end value. E.g. start = 2, step = 5, end = 11. Subject 2 results in 2.
+     * For subject = {3, 4, 5, 6, 7} result = 7. For subject = {8, 9, 10, 11}
+     * result = 11 (reached end value) etc.
      *
      * @param subject number to transform
      * @param step

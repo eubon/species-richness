@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package sk.sav.ibot.speciesrichness.rest.results;
 
 import io.swagger.annotations.ApiModel;
@@ -10,11 +5,12 @@ import sk.sav.ibot.speciesrichness.geo.LatLon;
 
 /**
  * POJO class of cell boundaries.
- * @author Matus
+ *
+ * @author Matus Kempa, Institute of Botany, SAS, Bratislava, Slovakia
  */
 @ApiModel(value = "CellBounds")
 public class ResultCellBounds {
-    
+
     private LatLon bottomLeft;
     private LatLon topRight;
 
@@ -46,5 +42,5 @@ public class ResultCellBounds {
     public String toString() {
         return "ResultCellBounds{" + "bottomLeft=" + bottomLeft + ", topRight=" + topRight + '}';
     }
-    
+
 }

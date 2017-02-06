@@ -1,26 +1,23 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package sk.sav.ibot.speciesrichness.rest.results;
 
 import io.swagger.annotations.ApiModel;
 import java.util.Objects;
 
 /**
+ * POJO class representing species in the result JSON or xml. Each species is
+ * represented as a pair of gbif key and scientific name.
  *
- * @author Matus
+ * @author Matus Kempa, Institute of Botany, SAS, Bratislava, Slovakia
  */
 @ApiModel(value = "Species")
 public class ResultSpecies implements Comparable<ResultSpecies> {
-    
+
     private Integer key;
     private String name;
 
     public ResultSpecies() {
     }
-    
+
     public ResultSpecies(Integer key, String name) {
         this.key = key;
         this.name = name;
@@ -74,12 +71,12 @@ public class ResultSpecies implements Comparable<ResultSpecies> {
     }
 
     /**
-     * Object are lexicographically compared by name,
-     * then by key
+     * Object are lexicographically compared by name, then by key
+     *
      * @param o object to compare with
-     * @return Negative value if this object is less than argument object,
-     * zero value if this object is equal to argument object,
-     * positive value if this object is greater than argument object
+     * @return Negative value if this object is less than argument object, zero
+     * value if this object is equal to argument object, positive value if this
+     * object is greater than argument object
      */
     @Override
     public int compareTo(ResultSpecies o) {
@@ -89,7 +86,5 @@ public class ResultSpecies implements Comparable<ResultSpecies> {
         }
         return this.key - o.key;
     }
-    
-    
-    
+
 }
