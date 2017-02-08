@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context" 
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.2.xsd
+">
+
+    <!--<mvc:annotation-driven />-->
+    
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver" />
+        <property name="url" value="jdbc:mysql://localhost:3306/gbif?zeroDateTimeBehavior=convertToNull" />
+        <property name="username" value="###" />
+        <property name="password" value="###" />
+    </bean>
+    
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+        <property name="packagesToScan" value="sk.sav.ibot.speciesrichness.model" />
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+                <prop key="hibernate.show_mysql">true</prop>
+                <!--<prop key="hibernate.cache.use_second_level_cache">true</prop>
+                <prop key="hibernate.cache.user_query_cache">true</prop>
+                <prop key="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.EhCacheRegionFactory</prop>-->
+            </props>
+        </property>
+    </bean>
+
+    <bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    <bean id="apiListingResource" class="io.swagger.jaxrs.listing.ApiListingResource"/>
+    <bean id="swaggerSerializers" class="io.swagger.jaxrs.listing.SwaggerSerializers" scope="singleton"/>
+    
+    <bean id="beanConfig" class="io.swagger.jaxrs.config.BeanConfig">
+        <property name="title" value="Swagger Sample App"/>
+        <property name="version" value="1.0.0" />
+        <property name="schemes" value="http" />
+        <property name="host" value="localhost:8282" />
+        <property name="basePath" value="/speciesrichness/api"/>
+        <property name="resourcePackage" value="sk.sav.ibot.speciesrichness.rest,sk.sav.ibot.speciesrichness.rest.results"/>
+        <property name="scan" value="true"/>
+    </bean>
+    
+    
+    <context:component-scan base-package="sk.sav.ibot.speciesrichness.services" />
+    <context:component-scan base-package="sk.sav.ibot.speciesrichness.dao" />
+    <context:component-scan base-package="sk.sav.ibot.speciesrichness.rest" />
+    <context:component-scan base-package="sk.sav.ibot.speciesrichness.gbif.rest" />
+    <context:component-scan base-package="sk.sav.ibot.speciesrichness.logic" />
+    
+    <context:annotation-config />
+    <tx:annotation-driven transaction-manager="transactionManager" />
+    
+</beans>
