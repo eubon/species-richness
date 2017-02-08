@@ -22,7 +22,7 @@ import sk.sav.ibot.speciesrichness.model.Taxonomy;
  *
  * @author Matus Kempa, Institute of Botany, SAS, Bratislava, Slovakia
  */
-@ManagedBean
+@ManagedBean(name = "taxonomyBean")
 @SessionScoped
 public class TaxonomyBean implements Serializable {
 

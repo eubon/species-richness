@@ -131,11 +131,11 @@ public class BootstrapMessagesRenderer extends MessagesRenderer {
         writer.startElement("ul", null);
 
         for (FacesMessage msg : messages) {
-            String summary = msg.getSummary() != null ? msg.getSummary() : "";
-            String detail = msg.getDetail() != null ? msg.getDetail() : summary;
+            String summary = msg.getSummary() != null ? " " + msg.getSummary() : "";
+            String detail = msg.getDetail() != null ? msg.getDetail() : "";
 
             writer.startElement("li", component);
-
+            writer.startElement("div", component);
             writer.startElement("span", null);
             writer.writeAttribute("class", "glyphicon glyphicon-exclamation-sign", "glyphicon glyphicon-exclamation-sign");
             writer.endElement("span");
@@ -149,7 +149,7 @@ public class BootstrapMessagesRenderer extends MessagesRenderer {
             if (uiMessages.isShowDetail()) {
                 writer.writeText(" " + detail, null);
             }
-            //writer.endElement("div");
+            writer.endElement("div");
             writer.endElement("li");
             msg.rendered();
         }

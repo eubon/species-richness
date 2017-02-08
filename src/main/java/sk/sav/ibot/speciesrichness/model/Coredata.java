@@ -14,7 +14,8 @@ import sk.sav.ibot.speciesrichness.geo.LatLon;
  * @author Matus Kempa, Institute of Botany, SAS, Bratislava, Slovakia
  */
 @Entity
-@Table(name = "coredata_sorted")
+//@Table(name = "coredata_sorted")
+@Table(name = "coredata_t")
 public class Coredata implements Serializable {
 
     @Id

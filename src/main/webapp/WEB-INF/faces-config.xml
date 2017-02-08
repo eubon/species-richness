@@ -7,6 +7,10 @@
 
     <application>
         <el-resolver>org.springframework.web.jsf.el.SpringBeanFacesELResolver</el-resolver>
+        
+        <message-bundle>
+            CustomMessages
+        </message-bundle>
     </application>
        
     <render-kit>
@@ -23,12 +27,6 @@
             sk.sav.ibot.speciesrichness.jsf.exception.SpeciesRichnessExceptionHandlerFactory
         </exception-handler-factory>
     </factory>
-    -->
- 
-    <system-event-listener>
-        <source-class>javax.faces.component.html.HtmlInputText</source-class>
-        <system-event-class>javax.faces.event.PostValidateEvent</system-event-class>
-        <system-event-listener-class>sk.sav.ibot.speciesrichness.jsf.validation.PostValidationListener</system-event-listener-class>
-    </system-event-listener>
+    -->    
  
 </faces-config>

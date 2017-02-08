@@ -70,7 +70,7 @@ function createGeoJSONs(layers) {
                 properties: {
                     occurences: {records: c.numOccurences, label: "Occurences: "},
                     species: {records: c.numSpecies, label: "Species: ", specieslist: c.species},
-                    ratio: {records: c.taxonRatio, label: "Ratio of selected species occurences to higher taxon occurences: "}
+                    ratio: {records: c.taxonRatio === 0 ? 0 : (c.taxonRatio).toFixed(3), label: "Ratio of selected species occurences to higher taxon occurences: "}
                 }
             };
             featureCollection.features.push(feature);

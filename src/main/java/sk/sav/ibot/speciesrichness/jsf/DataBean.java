@@ -9,6 +9,8 @@ import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
+import javax.faces.component.UIComponent;
+import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 import sk.sav.ibot.speciesrichness.rest.results.ResultItems;
@@ -40,9 +42,6 @@ public class DataBean implements Serializable {
     private int yearFrom = Defaults.YEAR_FROM;
     private int yearTo = Defaults.YEAR_TO;
     private int temporalRes = Defaults.TEMPORAL_RESOLUTION;
-
-    private String taxonStatus = "glyphicon-info-sign"; //indicates if the species name is valid - spelling, being in supertaxon, 
-    private String taxonMessage;
 
     private String occurencesJson;
 
@@ -139,21 +138,12 @@ public class DataBean implements Serializable {
     public String getOccurencesJson() {
         return occurencesJson;
     }
-
-    public String getTaxonStatus() {
-        return taxonStatus;
-    }
-
-    public void setTaxonStatus(String taxonStatus) {
-        this.taxonStatus = taxonStatus;
-    }
-
-    public String getTaxonMessage() {
-        return taxonMessage;
-    }
-
-    public void setTaxonMessage(String taxonMessage) {
-        this.taxonMessage = taxonMessage;
+    
+    public String isValid() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        UIInput current = (UIInput) UIComponent.getCurrentComponent(context);
+        
+        return current.isValid() ? "" : "input-invalid";
     }
 
     public String reset() {

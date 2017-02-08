@@ -79,30 +79,6 @@ public class CoredataController {
     }
 
     /**
-     * Arranges layers of cells as result objects ready for output.
-     *
-     * @param cells All cells of the grid
-     * @return Map of lists of result items hashed by year
-     */
-    /*
-    public Map<String, List<ResultCell>> makeResultsMap(Map<Integer, List<Cell>> cells) {
-        if (cells == null) {
-            throw new IllegalArgumentException("cells is null");
-        }
-        Map<String, List<ResultCell>> results = new HashMap<>();
-        for (Integer keyYear : cells.keySet()) {
-            List<ResultCell> resultList = new LinkedList<>();
-            for (Cell cell : cells.get(keyYear)) {
-                ResultCell resultCell = new ResultCell(new ResultCellBounds(cell.getBottomLeft(), cell.getTopRight()),
-                        cell.getYear(), cell.getNumOccurences(), cell.getTaxonOccurences(), cell.getNumSpecies(), SpeciesGbifClient.keysToSpecies(cell.getSpecies()));
-                resultList.add(resultCell);
-            }
-            results.put(String.valueOf(keyYear), resultList);
-        }
-        return results;
-    }
-     */
-    /**
      * Arranges layers of cells into JAXB friendly list of objects. Each cell
      * contains a set of species in form of taxa keys. These keys are looked at
      * the map of names and sets of ResultSpecies are created for each cell.

@@ -6,10 +6,16 @@
 package sk.sav.ibot.speciesrichness.logic;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import static org.junit.Assert.*;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import sk.sav.ibot.speciesrichness.geo.Cell;
 import sk.sav.ibot.speciesrichness.geo.LatLon;
 
@@ -17,26 +23,12 @@ import sk.sav.ibot.speciesrichness.geo.LatLon;
  *
  * @author Matus
  */
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration("file:src/main/webapp/WEB-INF/applicationContext.xml")
 public class CoredataControllerTest {
 
-    public CoredataControllerTest() {
-    }
-//
-
-    /**
-     * Test of retrieveCells method, of class CoredataController.
-     */
-    @org.junit.Test
-    public void testRetrieveCells() {
-//        System.out.println("retrieveCells");
-//        SearchTerms search = null;
-//        List<GbifTaxon> species = null;
-//        CoredataController instance = null;
-//        ResultItems expResult = null;
-//        ResultItems result = instance.retrieveCells(search, species);
-//        assertEquals(expResult, result);
-
-    }
+    @Autowired
+    CoredataController coredataService;
 
     @org.junit.Test
     public void testTidyUpCells() {
@@ -51,9 +43,8 @@ public class CoredataControllerTest {
         expected.add(new Cell(new LatLon(10, 5), new LatLon(15, 10), 2000, 30, 9));
         expected.add(three);
 
-//        CoredataController instance = new CoredataController(null);
-//        List<Cell> result = instance.tidyUpCells(cellsDirty);
-//        assertEquals(expected, result);
+        List<Cell> result = coredataService.tidyUpCells(cellsDirty);
+        assertEquals(expected, result);
     }
 
     @org.junit.Test
@@ -77,9 +68,8 @@ public class CoredataControllerTest {
         mapExpected.put(2005, cellsTwo);
         mapExpected.put(2001, cellsThree);
 
-//        CoredataController instance = new CoredataController(null);
-//        Map<Integer, List<Cell>> mapActual = instance.makeMap(cells);
-//        assertEquals(mapExpected, mapActual);
+        Map<Integer, List<Cell>> mapActual = coredataService.makeMap(cells);
+        assertEquals(mapExpected, mapActual);
     }
 
     @org.junit.Test
@@ -102,8 +92,28 @@ public class CoredataControllerTest {
         expected.add(b);
         expected.add(c);
         expected.add(d);
-//        CoredataController instance = new CoredataController(null);
-//        assertEquals(expected, instance.convergeCells(cells, 5, 2001, 2007));
+        assertEquals(expected, coredataService.convergeCells(cells, 5, 2001, 2007));
+    }
+
+    @org.junit.Test
+    public void testMakeUsedSpecies() {
+        Set<Integer> taxaKeys = new HashSet<>();
+        taxaKeys.add(111111);
+        taxaKeys.add(222222);
+        taxaKeys.add(333333);
+        Set<NameUsage> allNames = new HashSet<>();
+        NameUsage taxonA = new NameUsageImpl(111111, "Taxon A", "SPECIES", "EXACT");
+        NameUsage taxonB = new NameUsageImpl(222222, "Taxon B", "SPECIES", "EXACT");
+        NameUsage taxonC = new NameUsageImpl(444444, "Taxon C", "SPECIES", "EXACT");
+        allNames.add(taxonA);
+        allNames.add(taxonB);
+        allNames.add(taxonC);
+        Map<Integer, NameUsage> expected = new HashMap<>();
+        expected.put(111111, taxonA);
+        expected.put(222222, taxonB);
+        
+        Map<Integer, NameUsage> actual = coredataService.makeUsedSpecies(taxaKeys, allNames);
+        assertEquals(expected, actual);
     }
 
     @org.junit.Test
@@ -114,7 +124,7 @@ public class CoredataControllerTest {
         assertEquals(12, CoredataController.convergeTo(12, 5, 2, 20));
         assertEquals(18, CoredataController.convergeTo(17, 5, 3, 18));
     }
-    
+
     @org.junit.Test
     public void testRegex() {
         String key = "3221";
@@ -126,6 +136,6 @@ public class CoredataControllerTest {
         assertFalse(wKey.matches(regex));
         assertTrue(name.matches(regex));
         assertFalse(wName.matches(regex));
-        
+
     }
 }

@@ -47,7 +47,7 @@
                                              maxResults="15"
                                              size="50"
                                              required="true"
-                                             inputStyleClass="form-control"
+                                             inputStyleClass="form-control #{data.isValid()}"
                                              placeholder="Start by typing"
                                              label="Higher taxon"
                                              >
@@ -67,7 +67,7 @@
                                              converter="#{nameUsageConverter}"
                                              multiple="false"
                                              size="50"
-                                             inputStyleClass="form-control"
+                                             inputStyleClass="form-control #{data.isValid()}"
                                              placeholder="Enter higher taxon first"
                                              label="Species"
                                              >
@@ -83,8 +83,8 @@
                         <div class="row">
                             <div class="form-group col-md-6 col-md-offset-3">
                                 <label for="bbNorth">North</label>
-                                <h:inputText value="#{data.bbNorth}" id="bbNorth" class="form-control" required="true" label="North boundary"
-                                             validatorMessage="North boundary must be a decimal number between -90.0 and 90.0">
+                                <h:inputText value="#{data.bbNorth}" id="bbNorth" class="form-control #{data.isValid()}" label="North boundary"
+                                             required="true">
                                     <f:validateDoubleRange minimum="-90.0" maximum="90.0" />
                                 </h:inputText>
                             </div>
@@ -92,15 +92,15 @@
                         <div class="row">
                             <div class="form-group col-md-5">
                                 <label for="bbWest">West</label>
-                                <h:inputText value="#{data.bbWest}" id="bbWest" class="form-control" required="true" label="West boundary" 
-                                             validatorMessage="West boundary must be a decimal number between -180.0 and 180.0">
+                                <h:inputText value="#{data.bbWest}" id="bbWest" class="form-control #{data.isValid()}" label="West boundary" 
+                                             required="true" >
                                     <f:validateDoubleRange minimum="-180.0" maximum="180.0" />
                                 </h:inputText>
                             </div>
                             <div class="form-group col-md-5 col-md-offset-2">
                                 <label for="bbEast">East</label>
-                                <h:inputText value="#{data.bbEast}" id="bbEast" class="form-control" required="true" label="East boundary"
-                                             validatorMessage="East boundary must be a decimal number between -180.0 and 180.0">
+                                <h:inputText value="#{data.bbEast}" id="bbEast" class="form-control #{data.isValid()}" label="East boundary"
+                                             required="true">
                                     <f:validateDoubleRange minimum="-180.0" maximum="180.0" />
                                 </h:inputText>
                             </div>
@@ -108,8 +108,7 @@
                         <div class="row">
                             <div class="form-group col-md-6 col-md-offset-3">
                                 <label for="bbSouth">South</label>
-                                <h:inputText value="#{data.bbSouth}" id="bbSouth" class="form-control" required="true" label="South boundary"
-                                             validatorMessage="South boundary must be a decimal number between -90.0 and 90.0">
+                                <h:inputText value="#{data.bbSouth}" id="bbSouth" class="form-control #{data.isValid()}" label="South boundary" required="true">
                                     <f:validateDoubleRange minimum="-90.0" maximum="90.0" />
                                 </h:inputText>
                             </div>
@@ -118,8 +117,7 @@
                             <label for="spatial-res">Spatial resolution
                                 <a href="#" title="Width and height of the result cell. Accepts integer degrees." data-toggle="tooltip"><span class="glyphicon glyphicon-question-sign"></span></a>
                             </label>
-                            <h:inputText value="#{data.spatial}" id="spatial-res" class="form-control" required="true" label="Spatial resolution"
-                                         validatorMessage="Spatial resolution must be a number 1 and 50">
+                            <h:inputText value="#{data.spatial}" id="spatial-res" class="form-control" required="true" label="Spatial resolution">
                                 <f:validateLongRange minimum="1" maximum="50" />
                             </h:inputText>
                         </div>
@@ -129,15 +127,13 @@
                             </label>
                             <div id="temporal" class="row">
                                 <span class="col-md-5">
-                                    <h:inputText value="#{data.yearFrom}" id="temporal-from" class="form-control" required="true" label="Temporal extent - year from"
-                                                 validatorMessage="Starting year must be a four-digit number greater or equal to 1758">
+                                    <h:inputText value="#{data.yearFrom}" id="temporal-from" class="form-control" required="true" label="Temporal extent - year from">
                                         <f:validateLongRange minimum="1758" />
                                     </h:inputText>
                                 </span>
                                 <span class="col-md-2 text-center">-</span>
                                 <span class="col-md-5">
-                                    <h:inputText value="#{data.yearTo}" id="temporal-to" class="form-control" required="true" label="Temporal extent - year to"
-                                                 validatorMessage="Ending year must be a four-digit number greater or equal to 1758">
+                                    <h:inputText value="#{data.yearTo}" id="temporal-to" class="form-control" required="true" label="Temporal extent - year to">
                                         <f:validateLongRange minimum="1758" />
                                     </h:inputText>
                                 </span>
@@ -149,8 +145,7 @@
                                    Results for the stepped-over years are cumulated in the next visible year. 
                                    Accepts integer degrees." data-toggle="tooltip"><span class="glyphicon glyphicon-question-sign"></span></a>
                             </label>
-                            <h:inputText value="#{data.temporalRes}" id="temporal-res" class="form-control" required="true" label="Temporal resolution"
-                                         validatorMessage="Temporal resolution must be a number greater or equal to 1" >
+                            <h:inputText value="#{data.temporalRes}" id="temporal-res" class="form-control" required="true" label="Temporal resolution">
                                 <f:validateLongRange minimum="1" />
                             </h:inputText>
                         </div>

@@ -14,7 +14,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         
         <!-- Spring -->
-        <spring-framework.version>4.0.3.RELEASE</spring-framework.version>
+        <spring-framework.version>4.3.6.RELEASE</spring-framework.version>
         <aspectj.version>1.7.4</aspectj.version>
  
         <!-- Hibernate / JPA -->
@@ -50,6 +50,13 @@
             <artifactId>spring-webmvc</artifactId>
             <version>${spring-framework.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>4.3.6.RELEASE</version>
+        </dependency>
+
+        
         <!-- @Inject -->
         <dependency>
             <groupId>javax.inject</groupId>
@@ -65,10 +72,10 @@
         
         <!-- Spring jersey for REST -->
         <dependency>
-		<groupId>com.sun.jersey</groupId>
-		<artifactId>jersey-server</artifactId>
-		<version>1.8</version>
-	</dependency>
+            <groupId>com.sun.jersey</groupId>
+            <artifactId>jersey-server</artifactId>
+            <version>1.8</version>
+        </dependency>
         <dependency>
             <groupId>com.sun.jersey.contribs</groupId>
             <artifactId>jersey-spring</artifactId>

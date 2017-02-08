@@ -34,7 +34,7 @@
                 <ul id="view-tabs" class="nav nav-tabs">
                     <li class="active"><a href="#occurences" data-toggle="tab">Occurences</a></li>
                     <li><a href="#species" data-toggle="tab">Species</a></li>
-                    <c:if test="${data.taxonKey > 0}">
+                    <c:if test="${taxonomyBean.speciesTaxonGbifKey > 0}">
                         <li><a href="#ratio" data-toggle="tab">Ratio</a></li>
                     </c:if>
                     <li class="right"><h:commandLink value="New search" action="#{data.reset()}" /></li>
@@ -78,7 +78,7 @@
                         <span style="background-color: #235033; color: #fff;">&#8805; 100</span>
                     </div>
                 </div>
-                <c:if test="${data.taxonKey > 0}">
+                <c:if test="${taxonomyBean.speciesTaxonGbifKey > 0}">
                     <div id="ratio" class="tab-pane">
                         <div class="col-md-1 text-right"><label>Ratio: </label></div>
                         <div class="col-md-8 colour-chart-colours" id="colour-chart-colours-species">
@@ -115,12 +115,12 @@
                     <hr />
                     <h4>
                         <a class="collapsed no-decor" href="#higher-taxon-hierarchy" data-toggle="collapse" title="Show higher hierarchy">
-                            <span class="caret"></span>${data.higherTaxonName}
+                            <span class="caret"></span>${taxonomyBean.higherTaxonName}
                         </a>
                     </h4>
                     <div id="higher-taxon-hierarchy" class="collapse">
                         <ul>
-                            <c:forEach items="${data.higherTaxonHierarchy}" var="higherTaxon">
+                            <c:forEach items="${taxonomyBean.higherTaxonHierarchy}" var="higherTaxon">
                                 <li><h:outputText value="#{higherTaxon}" /></li>
                             </c:forEach>
                         </ul>
@@ -138,10 +138,10 @@
                             <em>West:</em> ${data.bbWest}°
                         </p>
                     </div>
-                    <c:if test="${data.taxonKey > 0}">
+                    <c:if test="${taxonomyBean.speciesTaxonGbifKey > 0}">
                         <div id="details-taxon">
                             <p>
-                                <strong>Species:</strong> ${data.taxonName}
+                                <strong>Species:</strong> ${taxonomyBean.speciesTaxonName}
                             </p>
                         </div>
                     </c:if>
