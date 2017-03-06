@@ -15,8 +15,8 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="com.mysql.jdbc.Driver" />
         <property name="url" value="jdbc:mysql://localhost:3306/gbif?zeroDateTimeBehavior=convertToNull" />
-        <property name="username" value="###" />
-        <property name="password" value="###" />
+        <property name="username" value="***" />
+        <property name="password" value="***" />
     </bean>
     
     <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
@@ -41,7 +41,7 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
     <bean id="swaggerSerializers" class="io.swagger.jaxrs.listing.SwaggerSerializers" scope="singleton"/>
     
     <bean id="beanConfig" class="io.swagger.jaxrs.config.BeanConfig">
-        <property name="title" value="Swagger Sample App"/>
+        <property name="title" value="Species Richness API"/>
         <property name="version" value="1.0.0" />
         <property name="schemes" value="http" />
         <property name="host" value="localhost:8282" />

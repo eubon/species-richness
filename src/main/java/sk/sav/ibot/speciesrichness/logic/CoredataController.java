@@ -2,6 +2,7 @@ package sk.sav.ibot.speciesrichness.logic;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -50,7 +51,7 @@ public class CoredataController {
      * @param species List of species to search
      * @return
      */
-    public ResultItems retrieveResults(SearchTerms search, Collection<NameUsage> species) {
+    public ResultItems retrieveResults(final SearchTerms search, final Collection<NameUsage> species) {
         if (search == null) {
             throw new IllegalArgumentException("search is null");
         }
@@ -68,11 +69,15 @@ public class CoredataController {
         Set<Integer> taxaUsed = grid.occurencesInGrid(search.getSpatialResolution(), data, search.getSpeciesTaxonGbifKey());
         //we use those taxa to create a map of used species - key, taxon
         Map<Integer, NameUsage> hashedNames = makeUsedSpecies(taxaUsed, species);
-
-        List<Cell> cells = grid.getCells(); //get cells
-        convergeCells(cells, search.getTemporalResolution(), search.getYearFrom(), search.getYearTo()); //converge them
-        List<Cell> cleanedCells = tidyUpCells(cells); //clean them
-        Map<Integer, List<Cell>> mappedCells = makeMap(cleanedCells); //arrange them in a map
+        //get cells
+        List<Cell> cells = grid.getCells(); 
+        //converge them
+        convergeCells(cells, search.getTemporalResolution(), search.getYearFrom(), search.getYearTo());
+        //clean them
+        List<Cell> cleanedCells = tidyUpCells(cells);
+        //arrange them in a map
+        Map<Integer, List<Cell>> mappedCells = makeMap(cleanedCells);
+        //create layers of cells
         List<Layer> results = makeResultLayers(mappedCells, hashedNames);
         ResultItems items = new ResultItems(search, results);
         return items;
@@ -88,17 +93,17 @@ public class CoredataController {
      * @return list of Layer object where each layer contains list of cells
      * belonging to specified year
      */
-    public List<Layer> makeResultLayers(Map<Integer, List<Cell>> cells, Map<Integer, NameUsage> names) {
+    public List<Layer> makeResultLayers(final Map<Integer, List<Cell>> cells, final Map<Integer, NameUsage> names) {
         if (cells == null) {
             throw new IllegalArgumentException("cells is null");
         }
         List<Layer> layers = new LinkedList<>();
-        for (Integer year : cells.keySet()) {
+        for (final Integer year : cells.keySet()) {
             List<ResultCell> resultList = new LinkedList<>();
-            for (Cell cell : cells.get(year)) {
+            for (final Cell cell : cells.get(year)) {
                 //convert set of keys to objects of ResultSpecies
                 Set<ResultSpecies> resultSpcs = new HashSet<>(cell.getNumSpecies());
-                for (Integer spec : cell.getSpecies()) {
+                for (final Integer spec : cell.getSpecies()) {
                     NameUsage rs = names.get(spec);
                     if (rs == null) {
                         Logger.getLogger(CoredataController.class.getName()).debug("no name found in the map - is null - for key " + spec);
@@ -116,7 +121,8 @@ public class CoredataController {
             Layer layer = new Layer(year, resultList);
             layers.add(layer);
         }
-        return layers;
+        Collections.sort(layers);
+        return Collections.unmodifiableList(layers);
     }
 
     /**
@@ -127,12 +133,12 @@ public class CoredataController {
      * @param cells List of cells
      * @return Map hashed by cell year as string
      */
-    public Map<Integer, List<Cell>> makeMap(List<Cell> cells) {
+    public Map<Integer, List<Cell>> makeMap(final List<Cell> cells) {
         if (cells == null) {
             throw new IllegalArgumentException("cells is null");
         }
         Map<Integer, List<Cell>> cellMap = new HashMap<>();
-        for (Cell cell : cells) {
+        for (final Cell cell : cells) {
             int key = cell.getYear();
             List<Cell> items;
             if (cellMap.containsKey(key)) {
@@ -154,12 +160,12 @@ public class CoredataController {
      * @param cells The dirty list with cell duplicates
      * @return ArrayList of unique cells
      */
-    public List<Cell> tidyUpCells(List<Cell> cells) {
+    public List<Cell> tidyUpCells(final List<Cell> cells) {
         if (cells == null) {
             throw new IllegalArgumentException("cells is null");
         }
         List<Cell> cleaned = new ArrayList<>();
-        for (Cell cell : cells) {
+        for (final Cell cell : cells) {
             if (cleaned.contains(cell)) { //cell exists in the clean list
                 //get the cell in clean and update its occurences
                 Cell cellInClean = cleaned.get(cleaned.indexOf(cell));
@@ -183,7 +189,7 @@ public class CoredataController {
      * @return map where keys are unique gbif keys and values are objects
      * identified by those keys
      */
-    public Map<Integer, NameUsage> makeUsedSpecies(Set<Integer> taxaKeys, Collection<NameUsage> allNames) {
+    public Map<Integer, NameUsage> makeUsedSpecies(final Set<Integer> taxaKeys, final Collection<NameUsage> allNames) {
         Map<Integer, NameUsage> names = new HashMap<>(taxaKeys.size());
         for (NameUsage aName : allNames) {
             if (taxaKeys.contains(aName.getKey())) {
@@ -204,7 +210,7 @@ public class CoredataController {
      * @param end year to finish at
      * @return list of cells with modified years
      */
-    public List<Cell> convergeCells(List<Cell> cells, int step, int start, int end) {
+    public List<Cell> convergeCells(List<Cell> cells, final int step, final int start, final int end) {
         if (cells == null) {
             throw new IllegalArgumentException("cells is null");
         }

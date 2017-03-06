@@ -10,29 +10,26 @@ import io.swagger.annotations.ApiModel;
 @ApiModel(value = "Query")
 public class SearchTerms {
 
-    private int spatialResolution;
-    private int yearFrom;
-    private int yearTo;
-    private int temporalResolution;
-    private String higherTaxonName;
-    private String higherTaxonRank;
-    private int higherTaxonGbifKey;
+    private final int spatialResolution;
+    private final int yearFrom;
+    private final int yearTo;
+    private final int temporalResolution;
+    private final String higherTaxonName;
+    private final String higherTaxonRank;
+    private final int higherTaxonGbifKey;
 
-    private String speciesTaxonName; //species
-    private int speciesTaxonGbifKey;
+    private final String speciesTaxonName; //species
+    private final int speciesTaxonGbifKey;
 
-    private double boundsNorth;
-    private double boundsEast;
-    private double boundsSouth;
-    private double boundsWest;
+    private final double boundsNorth;
+    private final double boundsEast;
+    private final double boundsSouth;
+    private final double boundsWest;
 
-    public SearchTerms() {
-    }
-
-    public SearchTerms(int spatialResolution, int yearFrom, int yearTo, int temporalResolution,
-            String supertaxonName, String supertaxonRank, int supertaxonGbifKey,
-            String taxonName, int taxonGbifKey,
-            double north, double east, double south, double west) {
+    public SearchTerms(final int spatialResolution, final int yearFrom, final int yearTo, 
+            final int temporalResolution, final String supertaxonName, final String supertaxonRank, 
+            final int supertaxonGbifKey, final String taxonName, final int taxonGbifKey,
+            final double north, final double east, final double south, final double west) {
         this.spatialResolution = spatialResolution;
         this.yearFrom = yearFrom;
         this.yearTo = yearTo;
@@ -72,10 +69,6 @@ public class SearchTerms {
         return higherTaxonRank;
     }
 
-    public void setHigherTaxonRank(String higherTaxonRank) {
-        this.higherTaxonRank = higherTaxonRank;
-    }
-
     public int getHigherTaxonGbifKey() {
         return this.higherTaxonGbifKey;
     }
@@ -84,16 +77,8 @@ public class SearchTerms {
         return speciesTaxonName;
     }
 
-    public void setSpeciesTaxonName(String speciesTaxonName) {
-        this.speciesTaxonName = speciesTaxonName;
-    }
-
     public int getSpeciesTaxonGbifKey() {
         return speciesTaxonGbifKey;
-    }
-
-    public void setSpeciesTaxonGbifKey(int speciesTaxonGbifKey) {
-        this.speciesTaxonGbifKey = speciesTaxonGbifKey;
     }
 
     public double getBoundsNorth() {
@@ -110,46 +95,6 @@ public class SearchTerms {
 
     public double getBoundsWest() {
         return this.boundsWest;
-    }
-
-    public void setSpatialResolution(int spatialResolution) {
-        this.spatialResolution = spatialResolution;
-    }
-
-    public void setYearFrom(int yearFrom) {
-        this.yearFrom = yearFrom;
-    }
-
-    public void setYearTo(int yearTo) {
-        this.yearTo = yearTo;
-    }
-
-    public void setTemporalResolution(int temporalResolution) {
-        this.temporalResolution = temporalResolution;
-    }
-
-    public void setHigherTaxonName(String higherTaxonName) {
-        this.higherTaxonName = higherTaxonName;
-    }
-
-    public void setHigherTaxonGbifKey(int higherTaxonGbifKey) {
-        this.higherTaxonGbifKey = higherTaxonGbifKey;
-    }
-
-    public void setBoundsNorth(double boundsNorth) {
-        this.boundsNorth = boundsNorth;
-    }
-
-    public void setBoundsEast(double boundsEast) {
-        this.boundsEast = boundsEast;
-    }
-
-    public void setBoundsSouth(double boundsSouth) {
-        this.boundsSouth = boundsSouth;
-    }
-
-    public void setBoundsWest(double boundsWest) {
-        this.boundsWest = boundsWest;
     }
 
     @Override

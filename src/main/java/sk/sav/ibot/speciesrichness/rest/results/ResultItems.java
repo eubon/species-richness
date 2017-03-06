@@ -2,6 +2,7 @@ package sk.sav.ibot.speciesrichness.rest.results;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
 import io.swagger.annotations.ApiModel;
+import java.util.Collections;
 import java.util.List;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
@@ -18,12 +19,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class ResultItems {
 
     @XmlElement(name = "query")
-    private SearchTerms terms;
-
-    private List<Layer> layers;
-
-    public ResultItems() {
-    }
+    private final SearchTerms terms;
+    private final List<Layer> layers;
 
     public ResultItems(SearchTerms terms, List<Layer> layers) {
         this.terms = terms;
@@ -35,18 +32,10 @@ public class ResultItems {
         return this.terms;
     }
 
-    public void setTerms(SearchTerms terms) {
-        this.terms = terms;
-    }
-
     @XmlElementWrapper(name = "layers")
     @XmlElement(name = "cells")
     public List<Layer> getLayers() {
-        return layers;
-    }
-
-    public void setLayers(List<Layer> layers) {
-        this.layers = layers;
+        return Collections.unmodifiableList(layers);
     }
 
     @Override

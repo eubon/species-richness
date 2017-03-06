@@ -28,6 +28,9 @@
 #details-info { border-top: 1px solid #ccc; padding-top: 20px; }
 #details-info .cell { padding-bottom: 20px; }
 #details-info small { color: #777; }
+
+#details-info #species-list { height: 155px; overflow-y: scroll; }
+
 .larger { font-size: larger; }
 .smaller { font-size: smaller; }
 .no-decor, .no-decor:hover, .no-decor:visited, .no-decor:active { color: #000; }

@@ -15,6 +15,7 @@ import sk.sav.ibot.speciesrichness.geo.LatLon;
  */
 @Entity
 @Table(name = "coredata_sorted")
+//@Table(name = "coredata_t")
 public class Coredata implements Serializable {
 
     @Id

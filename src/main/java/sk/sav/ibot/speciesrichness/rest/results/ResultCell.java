@@ -1,6 +1,7 @@
 package sk.sav.ibot.speciesrichness.rest.results;
 
 import io.swagger.annotations.ApiModel;
+import java.util.Collections;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -15,17 +16,14 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 @ApiModel(value = "Cell")
 public class ResultCell {
 
-    private ResultCellBounds bounds;
-    private int year;
-    private int numOccurences;
-    private int taxonOccurences;
-    private int numSpecies;
-    private SortedSet<ResultSpecies> species = new TreeSet<>();
+    private final ResultCellBounds bounds;
+    private final int year;
+    private final int numOccurences;
+    private final int taxonOccurences;
+    private final int numSpecies;
+    private final SortedSet<ResultSpecies> species;
 
-    public ResultCell() {
-    }
-
-    public ResultCell(ResultCellBounds bounds, int year, int numOccurences, int taxonOccurences, int numSpecies, Set<ResultSpecies> species) {
+    public ResultCell(final ResultCellBounds bounds, int year, int numOccurences, int taxonOccurences, int numSpecies, final Set<ResultSpecies> species) {
         this.bounds = bounds;
         this.year = year;
         this.numOccurences = numOccurences;
@@ -38,24 +36,12 @@ public class ResultCell {
         return bounds;
     }
 
-    public void setBounds(ResultCellBounds bounds) {
-        this.bounds = bounds;
-    }
-
     public int getNumOccurences() {
         return this.numOccurences;
     }
 
-    public void setNumOccurences(int numOccurences) {
-        this.numOccurences = numOccurences;
-    }
-
     public int getTaxonOccurences() {
         return taxonOccurences;
-    }
-
-    public void setTaxonOccurences(int taxonOccurences) {
-        this.taxonOccurences = taxonOccurences;
     }
 
     /**
@@ -76,26 +62,14 @@ public class ResultCell {
         return this.numSpecies;
     }
 
-    public void setNumSpecies(int numSpecies) {
-        this.numSpecies = numSpecies;
-    }
-
     public int getYear() {
         return this.year;
-    }
-
-    public void setYear(int year) {
-        this.year = year;
     }
 
     @XmlElementWrapper(name = "species")
     @XmlElement(name = "value")
     public SortedSet<ResultSpecies> getSpecies() {
-        return this.species;
-    }
-
-    public void setSpecies(SortedSet<ResultSpecies> species) {
-        this.species = species;
+        return Collections.unmodifiableSortedSet(species);
     }
 
     @Override

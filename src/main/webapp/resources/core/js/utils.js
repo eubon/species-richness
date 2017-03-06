@@ -13,7 +13,7 @@ function range(low, high) {
  * @param {int} current
  * @returns {undefined}
  */
-function chooseValue(values, current, allowZero = false) {
+function chooseValue(values, current, allowZero) {
     if ((current === 0.0 && !allowZero) || values.length === 0) {
         return 0;
     }

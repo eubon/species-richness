@@ -1,5 +1,6 @@
 package sk.sav.ibot.speciesrichness.rest.results;
 
+import java.util.Collections;
 import java.util.List;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
@@ -11,13 +12,10 @@ import javax.xml.bind.annotation.XmlElement;
  */
 public class Layer implements Comparable<Layer> {
 
-    private int year;
-    private List<ResultCell> cells;
+    private final int year;
+    private final List<ResultCell> cells;
 
-    public Layer() {
-    }
-
-    public Layer(int year, List<ResultCell> cells) {
+    public Layer(final int year, final List<ResultCell> cells) {
         this.year = year;
         this.cells = cells;
     }
@@ -27,17 +25,9 @@ public class Layer implements Comparable<Layer> {
         return year;
     }
 
-    public void setYear(int year) {
-        this.year = year;
-    }
-
     @XmlElement(name = "cell")
     public List<ResultCell> getCells() {
-        return cells;
-    }
-
-    public void setCells(List<ResultCell> cells) {
-        this.cells = cells;
+        return Collections.unmodifiableList(cells);
     }
 
     @Override

@@ -26,7 +26,7 @@ function detailContent(property, geometry, locked) {
         corners.push(latlng);
     });
     var content = '<div class="larger">' + property.label + '<strong>' + property.records + '</strong></div>\n\
-                        <div class="smaller cell">\n\
+                        <div class="smaller">\n\
                             <h5>Cell:</h5>\n\
                             <p>Bottom left: ' + corners[0].lat() + '° ' + corners[0].lng() + '°<br/>\n\
                             Top right: ' + corners[2].lat() + '° ' + corners[2].lng() + '°</p>\n\
@@ -34,7 +34,7 @@ function detailContent(property, geometry, locked) {
     if ("specieslist" in property) {
         content += '<div class="smaller cell">\n\
                             <h5>Species List:</h5>';
-        content += speciesList(property.specieslist);
+        content += '<div id="species-list">' + speciesList(property.specieslist) + '</div>';
         content += '</div>';
     }
     if (locked) {

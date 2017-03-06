@@ -11,13 +11,10 @@ import sk.sav.ibot.speciesrichness.geo.LatLon;
 @ApiModel(value = "CellBounds")
 public class ResultCellBounds {
 
-    private LatLon bottomLeft;
-    private LatLon topRight;
+    private final LatLon bottomLeft;
+    private final LatLon topRight;
 
-    public ResultCellBounds() {
-    }
-
-    public ResultCellBounds(LatLon bottomLeft, LatLon topRight) {
+    public ResultCellBounds(final LatLon bottomLeft, final LatLon topRight) {
         this.bottomLeft = bottomLeft;
         this.topRight = topRight;
     }
@@ -26,16 +23,8 @@ public class ResultCellBounds {
         return bottomLeft;
     }
 
-    public void setBottomLeft(LatLon bottomLeft) {
-        this.bottomLeft = bottomLeft;
-    }
-
     public LatLon getTopRight() {
         return topRight;
-    }
-
-    public void setTopRight(LatLon topRight) {
-        this.topRight = topRight;
     }
 
     @Override

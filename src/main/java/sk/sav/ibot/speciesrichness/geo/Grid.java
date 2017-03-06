@@ -14,11 +14,11 @@ import sk.sav.ibot.speciesrichness.model.Coredata;
  */
 public class Grid {
 
-    private LatLon bottomLeft;
-    private LatLon topRight;
+    private final LatLon bottomLeft;
+    private final LatLon topRight;
     private List<Cell> cells = new ArrayList<>();
 
-    public Grid(LatLon bottomLeft, LatLon topRight) {
+    public Grid(final LatLon bottomLeft, final LatLon topRight) {
         this.bottomLeft = bottomLeft;
         this.topRight = topRight;
     }
@@ -31,20 +31,12 @@ public class Grid {
         return bottomLeft;
     }
 
-    public void setBottomLeft(LatLon bottomLeft) {
-        this.bottomLeft = bottomLeft;
-    }
-
     /**
      * Coordinates of the top-right corner.
      * @return 
      */
     public LatLon getTopRight() {
         return topRight;
-    }
-
-    public void setTopRight(LatLon topRight) {
-        this.topRight = topRight;
     }
 
     /**
@@ -66,7 +58,7 @@ public class Grid {
      * @param spatialResolution Width and height of cells contained in the grid
      * @param data Data the cells are created for
      */
-    public void occurencesInGrid(int spatialResolution, List<Coredata> data) {
+    public void occurencesInGrid(int spatialResolution, final List<Coredata> data) {
         this.occurencesInGrid(spatialResolution, data, 0);
     }
     
@@ -81,7 +73,7 @@ public class Grid {
      * @param taxonkey idetifies specific taxon to count occurences for
      * @return set of taxonkeys found in the data
      */
-    public Set<Integer> occurencesInGrid(int spatialResolution, List<Coredata> data, int taxonkey) {
+    public Set<Integer> occurencesInGrid(int spatialResolution, final List<Coredata> data, int taxonkey) {
         if (spatialResolution <= 0) {
             throw new IllegalArgumentException("spatial resolution must be a positive number");
         }
@@ -89,7 +81,7 @@ public class Grid {
             throw new IllegalArgumentException("data is null");
         }
         Set<Integer> keys = new HashSet<>();
-        for (Coredata d : data) {
+        for (final Coredata d : data) {
             //check for outside the bounding box
             if (d.getLatitude() < this.bottomLeft.getLatitude()
                     || d.getLatitude() > this.topRight.getLatitude()
@@ -134,7 +126,7 @@ public class Grid {
      * @return Cell with given width, containing the point, and existing in a
      * year
      */
-    public Cell occurenceInGrid(int width, LatLon point, int year) {
+    public Cell occurenceInGrid(int width, final LatLon point, int year) {
         if (width <= 0) {
             throw new IllegalArgumentException("cell width must be positive number");
         }

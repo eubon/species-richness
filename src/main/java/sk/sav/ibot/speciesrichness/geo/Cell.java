@@ -16,25 +16,21 @@ import java.util.Set;
  */
 public class Cell implements Comparable<Cell> {
 
-    private LatLon bottomLeft;
-    private LatLon topRight;
+    private final LatLon bottomLeft;
+    private final LatLon topRight;
     private int year;
     private int numOccurences;
     private Set<Integer> species = new HashSet<>(); //species in this cell
     private int taxonOccurences; //given the specific taxon, hold occurences of it
 
-    public Cell(LatLon bottomLeft, LatLon topRight, int year) {
+    public Cell(final LatLon bottomLeft, final LatLon topRight, final int year) {
         this.bottomLeft = bottomLeft;
         this.topRight = topRight;
         this.year = year;
-        this.numOccurences = 0;
-        this.taxonOccurences = 0;
     }
 
-    public Cell(LatLon bottomLeft, LatLon topRight, int year, int numRecords, int taxonOccurences) {
-        this.bottomLeft = bottomLeft;
-        this.topRight = topRight;
-        this.year = year;
+    public Cell(final LatLon bottomLeft, final LatLon topRight, int year, int numRecords, int taxonOccurences) {
+        this(bottomLeft, topRight, year);
         this.numOccurences = numRecords;
         this.taxonOccurences = taxonOccurences;
     }
@@ -47,20 +43,12 @@ public class Cell implements Comparable<Cell> {
         return bottomLeft;
     }
 
-    public void setBottomLeft(LatLon bottomLeft) {
-        this.bottomLeft = bottomLeft;
-    }
-
     /**
      * Coordinates of the top-right corner
      * @return 
      */
     public LatLon getTopRight() {
         return topRight;
-    }
-
-    public void setTopRight(LatLon topRight) {
-        this.topRight = topRight;
     }
 
     /**

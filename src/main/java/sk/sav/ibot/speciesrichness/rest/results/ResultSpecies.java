@@ -12,13 +12,10 @@ import java.util.Objects;
 @ApiModel(value = "Species")
 public class ResultSpecies implements Comparable<ResultSpecies> {
 
-    private Integer key;
-    private String name;
+    private final Integer key;
+    private final String name;
 
-    public ResultSpecies() {
-    }
-
-    public ResultSpecies(Integer key, String name) {
+    public ResultSpecies(final Integer key, final String name) {
         this.key = key;
         this.name = name;
     }
@@ -27,16 +24,8 @@ public class ResultSpecies implements Comparable<ResultSpecies> {
         return key;
     }
 
-    public void setKey(Integer key) {
-        this.key = key;
-    }
-
     public String getName() {
         return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     @Override

@@ -119,18 +119,9 @@ public class TaxonomyController {
         for (GbifTaxon gbifTaxon : gbifTaxa) {
             names.add(new NameUsageImpl(gbifTaxon));
         }
-//        Set<NameUsage> names = new HashSet<>(1);
-//        names.add(new NameUsageImpl(3044855, "Alyssum alyssoides (L.) L.", "SPECIES", "EXACT"));
-//        names.add(new NameUsageImpl(4928114, "A", "SPECIES", "EXACT"));
-//        names.add(new NameUsageImpl(5375020, "B", "SPECIES", "EXACT"));
-//        names.add(new NameUsageImpl(3052509, "C", "SPECIES", "EXACT"));
-//        names.add(new NameUsageImpl(5708780, "D", "SPECIES", "EXACT"));
-//        names.add(new NameUsageImpl(3046076, "E", "SPECIES", "EXACT"));
-//        names.add(new NameUsageImpl(3046890, "F", "SPECIES", "EXACT"));
-//        names.add(new NameUsageImpl(5373358, "G", "SPECIES", "EXACT"));
         return names;
     }
-
+    
     /**
      * A convenience method that returns list of NameUsage objects which names
      * start with term string.
@@ -141,7 +132,7 @@ public class TaxonomyController {
     public List<NameUsage> suggestSpecies(String term) {
         List<GbifTaxon> gbifTaxa = this.speciesGbifClient.suggestSpecies(term);
         List<NameUsage> names = new ArrayList<>(gbifTaxa.size());
-        for (GbifTaxon gbifTaxon : gbifTaxa) {
+        for (final GbifTaxon gbifTaxon : gbifTaxa) {
             names.add(new NameUsageImpl(gbifTaxon));
         }
         return names;
@@ -175,9 +166,9 @@ public class TaxonomyController {
      * @param keys collection of gbif keys
      * @return set of NameUsage objects identified by their unique keys
      */
-    public Set<NameUsage> keysToSpecies(Collection<Integer> keys) {
+    public Set<NameUsage> keysToSpecies(final Collection<Integer> keys) {
         Set<NameUsage> species = new HashSet<>(keys.size());
-        for (Integer key : keys) {
+        for (final Integer key : keys) {
             NameUsage name = this.speciesByKey(key);
             if (name != null) {
                 species.add(name);

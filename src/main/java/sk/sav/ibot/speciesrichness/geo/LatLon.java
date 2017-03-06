@@ -7,8 +7,8 @@ package sk.sav.ibot.speciesrichness.geo;
  */
 public class LatLon {
 
-    private double latitude;
-    private double longitude;
+    private final double latitude;
+    private final double longitude;
 
     public LatLon(double latitude, double longitude) {
         if (latitude < -90 && latitude > 90) {
@@ -30,10 +30,6 @@ public class LatLon {
         return latitude;
     }
 
-    public void setLatitude(double latitude) {
-        this.latitude = latitude;
-    }
-
     /**
      * Geographical longitude.
      *
@@ -41,10 +37,6 @@ public class LatLon {
      */
     public double getLongitude() {
         return longitude;
-    }
-
-    public void setLongitude(double longitude) {
-        this.longitude = longitude;
     }
 
     @Override
