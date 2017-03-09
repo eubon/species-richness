@@ -18,16 +18,16 @@ public class ResultCell {
 
     private final ResultCellBounds bounds;
     private final int year;
-    private final int numOccurences;
-    private final int taxonOccurences;
+    private final int numOccurrences;
+    private final int taxonOccurrences;
     private final int numSpecies;
     private final SortedSet<ResultSpecies> species;
 
-    public ResultCell(final ResultCellBounds bounds, int year, int numOccurences, int taxonOccurences, int numSpecies, final Set<ResultSpecies> species) {
+    public ResultCell(final ResultCellBounds bounds, int year, int numOccurrences, int taxonOccurrences, int numSpecies, final Set<ResultSpecies> species) {
         this.bounds = bounds;
         this.year = year;
-        this.numOccurences = numOccurences;
-        this.taxonOccurences = taxonOccurences;
+        this.numOccurrences = numOccurrences;
+        this.taxonOccurrences = taxonOccurrences;
         this.numSpecies = numSpecies;
         this.species = new TreeSet<>(species);
     }
@@ -36,25 +36,25 @@ public class ResultCell {
         return bounds;
     }
 
-    public int getNumOccurences() {
-        return this.numOccurences;
+    public int getNumOccurrences() {
+        return this.numOccurrences;
     }
 
-    public int getTaxonOccurences() {
-        return taxonOccurences;
+    public int getTaxonOccurrences() {
+        return taxonOccurrences;
     }
 
     /**
-     * Ratio of species occurences to the total number of occurences of higher
+     * Ratio of species occurrences to the total number of occurrences of higher
      * taxon.
      *
      * @return value between 0.0 and 1.0
      */
     public double getTaxonRatio() {
-        if (this.numOccurences == 0) {
+        if (this.numOccurrences == 0) {
             return 0.0;
         }
-        double result = (double) this.taxonOccurences / this.numOccurences;
+        double result = (double) this.taxonOccurrences / this.numOccurrences;
         return result;
     }
 
@@ -74,7 +74,7 @@ public class ResultCell {
 
     @Override
     public String toString() {
-        return "ResultCell{" + "bounds=" + bounds + ", year=" + year + ", numOccurences=" + numOccurences + ", taxonOccurences=" + taxonOccurences + ", numSpecies=" + numSpecies + ", species=" + species.size() + ", taxonRatio=" + getTaxonRatio() + '}';
+        return "ResultCell{" + "bounds=" + bounds + ", year=" + year + ", numOccurrences=" + numOccurrences + ", taxonOccurrences=" + taxonOccurrences + ", numSpecies=" + numSpecies + ", species=" + species.size() + ", taxonRatio=" + getTaxonRatio() + '}';
     }
 
 }

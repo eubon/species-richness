@@ -44,8 +44,8 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
         <property name="title" value="Species Richness API"/>
         <property name="version" value="1.0.0" />
         <property name="schemes" value="http" />
-        <property name="host" value="localhost:8282" />
-        <property name="basePath" value="/speciesrichness/api"/>
+        <property name="host" value="biodiversity.eubon.eu" />
+        <property name="basePath" value="/species-richness/api"/>
         <property name="resourcePackage" value="sk.sav.ibot.speciesrichness.rest,sk.sav.ibot.speciesrichness.rest.results"/>
         <property name="scan" value="true"/>
     </bean>

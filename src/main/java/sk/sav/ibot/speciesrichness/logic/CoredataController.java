@@ -66,7 +66,7 @@ public class CoredataController {
         Grid grid = new Grid(new LatLon(search.getBoundsSouth(), search.getBoundsWest()), new LatLon(search.getBoundsNorth(), search.getBoundsEast()));
         //compute the cells in grid from result data
         //the set of keys found among the results is the sideproduct
-        Set<Integer> taxaUsed = grid.occurencesInGrid(search.getSpatialResolution(), data, search.getSpeciesTaxonGbifKey());
+        Set<Integer> taxaUsed = grid.occurrencesInGrid(search.getSpatialResolution(), data, search.getSpeciesTaxonGbifKey());
         //we use those taxa to create a map of used species - key, taxon
         Map<Integer, NameUsage> hashedNames = makeUsedSpecies(taxaUsed, species);
         //get cells
@@ -113,7 +113,7 @@ public class CoredataController {
                 }
                 //create jaxb cell object
                 ResultCell resultCell = new ResultCell(new ResultCellBounds(cell.getBottomLeft(), cell.getTopRight()),
-                        cell.getYear(), cell.getNumOccurences(), cell.getTaxonOccurences(), cell.getNumSpecies(), resultSpcs);
+                        cell.getYear(), cell.getNumOccurrences(), cell.getTaxonOccurrences(), cell.getNumSpecies(), resultSpcs);
                 //add cell to the results
                 resultList.add(resultCell);
             }
@@ -169,9 +169,9 @@ public class CoredataController {
             if (cleaned.contains(cell)) { //cell exists in the clean list
                 //get the cell in clean and update its occurences
                 Cell cellInClean = cleaned.get(cleaned.indexOf(cell));
-                cellInClean.addNumOccurences(cell.getNumOccurences());
+                cellInClean.addNumOccurences(cell.getNumOccurrences());
                 cellInClean.addSpecies(cell.getSpecies());
-                cellInClean.addTaxonOccurences(cell.getTaxonOccurences());
+                cellInClean.addTaxonOccurences(cell.getTaxonOccurrences());
             } else {
                 //or add the cell to the clean list if it is not present yet
                 cleaned.add(cell);

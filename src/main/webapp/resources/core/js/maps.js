@@ -1,6 +1,6 @@
 
 var views = {
-    occurences: {
+    occurrences: {
         allowZero: false,
         colours: [{key: 100, value: "#f7ec75"}, {key: 500, value: "#f7da37"}, {key: 1000, value: "#f7c775"}, {key: 3000, value: "#f7b036"},
             {key: 5000, value: "#f79536"}, {key: 10000, value: "#f76836"}, {key: Number.MAX_VALUE, value: "#f73f36"}]
@@ -20,7 +20,7 @@ var views = {
 var opacity = 0.85;
 var detailLocked = false;
 
-function detailContent(property, geometry, locked) {
+function detailContent(property, geometry, locked, year) {
     var corners = [];
     geometry.forEachLatLng(function (latlng) {
         corners.push(latlng);
@@ -29,7 +29,8 @@ function detailContent(property, geometry, locked) {
                         <div class="smaller">\n\
                             <h5>Cell:</h5>\n\
                             <p>Bottom left: ' + corners[0].lat() + '° ' + corners[0].lng() + '°<br/>\n\
-                            Top right: ' + corners[2].lat() + '° ' + corners[2].lng() + '°</p>\n\
+                            Top right: ' + corners[2].lat() + '° ' + corners[2].lng() + '°<br />\n\
+                            Year: ' + year + '</p>\n\
                         </div>';
     if ("specieslist" in property) {
         content += '<div class="smaller cell">\n\
@@ -68,9 +69,10 @@ function createGeoJSONs(layers) {
                         ]]
                 },
                 properties: {
-                    occurences: {records: c.numOccurences, label: "Occurences: "},
+                    occurrences: {records: c.numOccurrences, label: "Occurrences: "},
                     species: {records: c.numSpecies, label: "Species: ", specieslist: c.species},
-                    ratio: {records: c.taxonRatio === 0 ? 0 : (c.taxonRatio).toFixed(3), label: "Ratio of selected species occurences to higher taxon occurences: "}
+                    ratio: {records: c.taxonRatio === 0 ? 0 : (c.taxonRatio).toFixed(3), label: "Ratio of selected species occurrences to higher taxon occurrences: "},
+                    year: c.year
                 }
             };
             featureCollection.features.push(feature);
@@ -103,7 +105,7 @@ function showLayer(position, layers, map, property, view, opacity) {
     });
     map.data.addListener("mouseover", function (event) {
         if (!detailLocked) {
-            detailContent(event.feature.getProperty(property), event.feature.getGeometry(), false);
+            detailContent(event.feature.getProperty(property), event.feature.getGeometry(), false, event.feature.getProperty("year"));
         }
         /*
          infowindow.setContent(content);
@@ -119,7 +121,7 @@ function showLayer(position, layers, map, property, view, opacity) {
     });
     map.data.addListener("click", function (event) {
         detailLocked = true;
-        detailContent(event.feature.getProperty(property), event.feature.getGeometry(), detailLocked);
+        detailContent(event.feature.getProperty(property), event.feature.getGeometry(), detailLocked, event.feature.getProperty("year"));
     });
 }
 
@@ -160,7 +162,7 @@ function init(results, lat, lon) {
         //show first layer as default
         var geoJSONs = createGeoJSONs(items);
         //console.log(geoJSONs);
-        initPlayer(years, geoJSONs, map, 'occurences', views);
+        initPlayer(years, geoJSONs, map, 'occurrences', views);
     } else {
         $("#player").find("button").addClass("disabled");
         $("#player").find("select").prop("disabled", true);

@@ -19,9 +19,9 @@ public class Cell implements Comparable<Cell> {
     private final LatLon bottomLeft;
     private final LatLon topRight;
     private int year;
-    private int numOccurences;
+    private int numOccurrences;
     private Set<Integer> species = new HashSet<>(); //species in this cell
-    private int taxonOccurences; //given the specific taxon, hold occurences of it
+    private int taxonOccurrences; //given the specific taxon, hold occurences of it
 
     public Cell(final LatLon bottomLeft, final LatLon topRight, final int year) {
         this.bottomLeft = bottomLeft;
@@ -31,8 +31,8 @@ public class Cell implements Comparable<Cell> {
 
     public Cell(final LatLon bottomLeft, final LatLon topRight, int year, int numRecords, int taxonOccurences) {
         this(bottomLeft, topRight, year);
-        this.numOccurences = numRecords;
-        this.taxonOccurences = taxonOccurences;
+        this.numOccurrences = numRecords;
+        this.taxonOccurrences = taxonOccurences;
     }
 
     /**
@@ -66,46 +66,46 @@ public class Cell implements Comparable<Cell> {
     }
 
     /**
-     * Number of all occurences in the area of this cell in the year associated with this cell.
+     * Number of all occurrences in the area of this cell in the year associated with this cell.
      * @return 
      */
-    public int getNumOccurences() {
-        return numOccurences;
+    public int getNumOccurrences() {
+        return numOccurrences;
     }
 
-    public void setNumOccurences(int numOccurences) {
-        this.numOccurences = numOccurences;
+    public void setNumOccurrences(int numOccurrences) {
+        this.numOccurrences = numOccurrences;
     }
 
     /**
-     * Increments number of all occurences by value.
-     * @param value can be positive, zero, or negative. The number of occurences is
+     * Increments number of all occurrences by value.
+     * @param value can be positive, zero, or negative. The number of occurrences is
      * changed accordingly
      */
     public void addNumOccurences(int value) {
         //value can be negative
-        this.numOccurences += value;
+        this.numOccurrences += value;
     }
 
     /**
-     * Occurences of particular taxon in the area of this cell in the year associated with this cell.
+     * Occurrences of particular taxon in the area of this cell in the year associated with this cell.
      * @return 
      */
-    public int getTaxonOccurences() {
-        return taxonOccurences;
+    public int getTaxonOccurrences() {
+        return taxonOccurrences;
     }
 
-    public void setTaxonOccurences(int taxonOccurences) {
-        this.taxonOccurences = taxonOccurences;
+    public void setTaxonOccurrences(int taxonOccurrences) {
+        this.taxonOccurrences = taxonOccurrences;
     }
     
     /**
-     * Increment number of taxon occurences by value.
+     * Increment number of taxon occurrences by value.
      * @param value 
      */
     public void addTaxonOccurences(int value) {
         //value can be negative
-        this.taxonOccurences += value;
+        this.taxonOccurrences += value;
     }
     
     /**
@@ -147,7 +147,7 @@ public class Cell implements Comparable<Cell> {
 
     @Override
     public String toString() {
-        return "Cell{" + "bottomLeft=" + bottomLeft + ", topRight=" + topRight + ", year=" + year + ", occurences=" + numOccurences + ", species=" + species + '}';
+        return "Cell{" + "bottomLeft=" + bottomLeft + ", topRight=" + topRight + ", year=" + year + ", occurences=" + numOccurrences + ", species=" + species + '}';
     }
 
     @Override

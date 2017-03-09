@@ -22,7 +22,7 @@
             //init
             var latCenter = (${data.bbNorth} - ${data.bbSouth}) / 2 + ${data.bbSouth};
             var lonCenter = (${data.bbEast} - ${data.bbWest}) / 2 + ${data.bbWest};
-            var layers = ${data.occurencesJson};
+            var layers = ${data.occurrencesJson};
             init(layers, latCenter, lonCenter);
             });
         </h:outputScript>
@@ -31,7 +31,7 @@
         <div class="container" style="margin: 20px auto;">
             <h:form>
                 <ul id="view-tabs" class="nav nav-tabs">
-                    <li class="active"><a href="#occurences" data-toggle="tab">Occurences</a></li>
+                    <li class="active"><a href="#occurences" data-toggle="tab">Occurrences</a></li>
                     <li><a href="#species" data-toggle="tab">Species</a></li>
                     <c:if test="${taxonomyBean.speciesTaxonGbifKey > 0}">
                         <li><a href="#ratio" data-toggle="tab">Ratio</a></li>
@@ -54,7 +54,7 @@
             </div>
             <div id="colour-chart" class="tab-content small">
                 <div id="occurences" class="tab-pane active">
-                    <div class="col-md-1 text-right"><label>Occurences: </label></div>
+                    <div class="col-md-1 text-right"><label>Occurrences: </label></div>
                     <div class="col-md-8 colour-chart-colours" id="colour-chart-colours-occurences">
                         <span style="background-color: #f7ec75;">1 - 99</span>
                         <span style="background-color: #f7da37;">100 - 499</span>

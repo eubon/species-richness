@@ -33,7 +33,7 @@
                     <div id="map"></div>
                 </div>
                 <div class="col-lg-3">
-                    <h:form id="index-form">
+                    <h:form id="index-form" onsubmit="document.body.style.cursor='wait'">
                         <div class="form-group">
                             <label for="auto-higher-taxon">Higher taxon</label>
                             <pf:autoComplete id="auto-higher-taxon"
@@ -149,7 +149,7 @@
                                 <f:validateLongRange minimum="1" />
                             </h:inputText>
                         </div>
-                        <h:commandButton action="#{data.retrieveCells()}" value="Get results" class="btn btn-default" />
+                        <h:commandButton action="#{data.retrieveCells()}" value="Get results" class="btn btn-default"  />
                     </h:form>
                 </div>
             </div>

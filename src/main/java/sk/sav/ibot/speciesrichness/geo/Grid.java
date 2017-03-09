@@ -53,27 +53,27 @@ public class Grid {
     }
 
     /**
-     * Wrapper for the occurencesInGrid(int spatialResolution, List data, int taxonkey) method,
-     * where taxonkey is not needed. Zero is passed as taxonkey.
+     * Wrapper for the occurrencesInGrid(int spatialResolution, List data, int taxonkey) method,
+ where taxonkey is not needed. Zero is passed as taxonkey.
      * @param spatialResolution Width and height of cells contained in the grid
      * @param data Data the cells are created for
      */
-    public void occurencesInGrid(int spatialResolution, final List<Coredata> data) {
-        this.occurencesInGrid(spatialResolution, data, 0);
+    public void occurrencesInGrid(int spatialResolution, final List<Coredata> data) {
+        this.occurrencesInGrid(spatialResolution, data, 0);
     }
     
     /**
      * Creates list of all cells in this grid. Each cell contains total number
-     * of occurences and species for all the data occuring within an area
+     * of occurrences and species for all the data occurring within an area
      * covered by specific cell in specific year. Retrieve results by calling
      * getCells();
      *
      * @param spatialResolution Width and height of cells contained in the grid
      * @param data Data the cells are created for
-     * @param taxonkey idetifies specific taxon to count occurences for
+     * @param taxonkey idetifies specific taxon to count occurrences for
      * @return set of taxonkeys found in the data
      */
-    public Set<Integer> occurencesInGrid(int spatialResolution, final List<Coredata> data, int taxonkey) {
+    public Set<Integer> occurrencesInGrid(int spatialResolution, final List<Coredata> data, int taxonkey) {
         if (spatialResolution <= 0) {
             throw new IllegalArgumentException("spatial resolution must be a positive number");
         }
@@ -93,7 +93,7 @@ public class Grid {
             keys.add(d.getTaxonkey());
             
             LatLon point = new LatLon(d.getLatitude(), d.getLongitude());
-            Cell c = occurenceInGrid(spatialResolution, point, d.getCyear()); //create cell for given point and year
+            Cell c = occurrenceInGrid(spatialResolution, point, d.getCyear()); //create cell for given point and year
             if (this.cells.contains(c)) { //if such cell exists, update its occurences and species
                 Cell cellIn = this.cells.get(this.cells.indexOf(c));
                 cellIn.addNumOccurences(d.getNumRecords());
@@ -126,7 +126,7 @@ public class Grid {
      * @return Cell with given width, containing the point, and existing in a
      * year
      */
-    public Cell occurenceInGrid(int width, final LatLon point, int year) {
+    public Cell occurrenceInGrid(int width, final LatLon point, int year) {
         if (width <= 0) {
             throw new IllegalArgumentException("cell width must be positive number");
         }

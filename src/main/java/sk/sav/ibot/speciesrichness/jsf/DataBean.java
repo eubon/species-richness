@@ -43,10 +43,10 @@ public class DataBean implements Serializable {
     private int yearTo = Defaults.YEAR_TO;
     private int temporalRes = Defaults.TEMPORAL_RESOLUTION;
 
-    private String occurencesJson;
+    private String occurrencesJson;
 
     /**
-     * Class containing the logic of processing occurences data
+     * Class containing the logic of processing occurrences data
      *
      * @return
      */
@@ -135,8 +135,8 @@ public class DataBean implements Serializable {
      *
      * @return JSON string
      */
-    public String getOccurencesJson() {
-        return occurencesJson;
+    public String getOccurrencesJson() {
+        return occurrencesJson;
     }
     
     public String isValid() {
@@ -176,7 +176,7 @@ public class DataBean implements Serializable {
         ResultItems results = this.coredataController.retrieveResults(terms, species);
         ObjectMapper mapper = new ObjectMapper();
         try {
-            this.occurencesJson = mapper.writeValueAsString(results);
+            this.occurrencesJson = mapper.writeValueAsString(results);
         } catch (JsonProcessingException ex) {
             Logger.getLogger(DataBean.class.getName()).log(Level.SEVERE, null, ex);
         }
